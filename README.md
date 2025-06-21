@@ -1,8 +1,8 @@
 <!-- README.md -->
 
-<h1 align="center">Embedded Linux Diploma with AI | 2025</h1>
+<h1 align="center">Embedded Linux Diploma </h1>
 
-<p align="center"><em>By Eng. Moatasem Elsayed — Documented by <strong>Muhammad Elalawy</strong></em></p>
+<p align="center"><em> Documented by <strong>Muhammad Elalawy</strong></em></p>
 
 <h3 align="center">🚀 Learning in Progress</h3>
 
@@ -10,12 +10,6 @@
   <img src="https://img.shields.io/badge/Progress-0%25-red?style=for-the-badge&logo=progress" />
 </p>
 
----
-
-## 📘 Overview
-
-This repository will document my complete journey through the **Embedded Linux Diploma with AI (2025)** taught by **Eng. Moatasem Elsayed**.  
-It will include all technologies, tools, and concepts learned as I progress step by step through the diploma.
 
 ---
 
