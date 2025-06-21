@@ -42,9 +42,6 @@ It will include all technologies, tools, and concepts learned as I progress step
 | Monitoring Project                    | 0%          |
 
 ---
-Sure! Here's your enhanced README content structured as tables in **Markdown (`.md`) format**, categorized by topic and session:
-
----
 
 ## 🐍 Python Course
 
@@ -207,10 +204,6 @@ Sure! Here's your enhanced README content structured as tables in **Markdown (`.
 | 2       | 3hr      | Pointers                      |
 | 3       | 3hr      | Threads                       |
 
----
-
-Let me know if you'd like a downloadable `.md` file or additional features like a table of contents or badges!
-
 
 ---
 
@@ -221,7 +214,6 @@ Let me know if you'd like a downloadable `.md` file or additional features like 
   <a href="https://twitter.com/elalawey" target="_blank"><img src="https://img.shields.io/badge/Twitter-1DA1F2?style=flat&logo=twitter&logoColor=white" alt="Twitter" /></a>
   <a href="https://linkedin.com/in/elalawy" target="_blank"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
   <a href="https://fb.com/pioneer383" target="_blank"><img src="https://img.shields.io/badge/Facebook-1877F2?style=flat&logo=facebook&logoColor=white" alt="Facebook" /></a>
-  <a href="https://www.hackerrank.com/mohamedelalawey7" target="_blank"><img src="https://img.shields.io/badge/HackerRank-2EC866?style=flat&logo=HackerRank&logoColor=white" alt="HackerRank" /></a>
 </p>
 
 ---
