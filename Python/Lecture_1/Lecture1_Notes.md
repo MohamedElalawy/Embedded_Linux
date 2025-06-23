@@ -147,7 +147,7 @@ Source Code (.py)
 - **Portability**: Same bytecode runs on any PVM (Windows/Linux/macOS).
 - **Debugging**: Inspect bytecode with `dis` module to optimize code.
 ---
-Detailed explanation of the Python bytecode execution shown in your terminal output:
+Detailed explanation of the Python bytecode:
 ![image](https://github.com/user-attachments/assets/8c1b7d14-4844-41de-94ca-0dc2e1fe4bcd)
 ![image](https://github.com/user-attachments/assets/039dbb8b-74d6-4dd7-8f7a-a68ac79a0f31)
 
