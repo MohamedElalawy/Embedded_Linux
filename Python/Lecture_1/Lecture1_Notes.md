@@ -137,9 +137,14 @@ The **difference between an interpreter and a compiler** lies in **how they tran
 - **Portability**: Same bytecode runs on any PVM (Windows/Linux/macOS).
 - **Debugging**: Inspect bytecode with `dis` module to optimize code.
 ---
-Detailed explanation of the Python bytecode:
+## Detailed explanation of the Python bytecode:
+
+Bytecode is an intermediate, low-level representation of code that sits between human-readable source code and machine-executable binary code. It is designed to be executed by a virtual machine (VM) or interpreter rather than directly by the computer's hardware.
+
 ![image](https://github.com/user-attachments/assets/8c1b7d14-4844-41de-94ca-0dc2e1fe4bcd)
+
 ![image](https://github.com/user-attachments/assets/039dbb8b-74d6-4dd7-8f7a-a68ac79a0f31)
+
 
 ---
 #### **Run the disassembler**
