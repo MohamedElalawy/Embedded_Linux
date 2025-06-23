@@ -203,3 +203,18 @@ When you run a Python program:
 
 ---
 
+## Python Compiler:
+
+![image](https://github.com/user-attachments/assets/93fda292-3d94-4126-85b4-b5335990dbbc)
+
+### Python Implementation Variants
+
+| Implementation | Key Characteristics |
+|---------------|---------------------|
+| **CPython** | Stack-based interpreter (with optional `with-pyston` or `-X cpu_count` speedups in Python 3.13+) |
+| **PyPy** | Uses the same bytecode specification but adds a tracing JIT (Just-In-Time) compiler that optimizes hot loops into native machine code |
+| **MicroPython / CircuitPython** | Minimalist VM with a reduced opcode set, designed to run on microcontrollers and embedded systems |
+| **Jython / Graal-Python** | Translates Python bytecode into JVM bytecode, executing on the Java Virtual Machine |
+| **IronPython** | Compiles Python code to the .NET Common Intermediate Language (CIL), running on the .NET CLR |
+
+---
