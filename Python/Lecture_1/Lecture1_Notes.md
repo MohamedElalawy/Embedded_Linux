@@ -167,6 +167,7 @@ dis.dis(compile("x = 10; print(x)", "<string>", "exec"))
 ## PVM
 The **Python Virtual Machine (PVM)** is the component of the Python interpreter that **executes bytecode instructions**.
 ![image](https://github.com/user-attachments/assets/29344943-130e-4f7d-aaaa-b099ff274455)
+it simply iterprets bytecode into machine code and executes it
 
 ---
 
