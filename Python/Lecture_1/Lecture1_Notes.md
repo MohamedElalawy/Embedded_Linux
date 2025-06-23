@@ -70,9 +70,8 @@ The **difference between an interpreter and a compiler** lies in **how they tran
 
 ---
 
-Detailed breakdown of the Python interpreter process:
+## Detailed breakdown of the Python interpreter process:
 
----
 
 ### Python Interpreter Execution Pipeline
 ![image](https://github.com/user-attachments/assets/f70ed5d7-24c0-45cf-bda2-f8b658cbf624)
