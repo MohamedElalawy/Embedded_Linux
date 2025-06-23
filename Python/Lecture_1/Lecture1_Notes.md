@@ -124,16 +124,7 @@ Detailed breakdown of the Python interpreter process:
 
 ---
 
-### Visualized Workflow
-```
-Source Code (.py) 
-    → Lexing (Tokens) 
-    → Parsing (AST) 
-    → Compilation (Bytecode) 
-    → PVM (Interpreter) 
-    → Machine Code 
-    → Execution (I/O)
-```
+
 
 ### Key Components
 - **`.pyc` Files**: Cached bytecode for faster subsequent runs.
