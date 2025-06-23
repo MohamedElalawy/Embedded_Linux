@@ -139,8 +139,11 @@ The **difference between an interpreter and a compiler** lies in **how they tran
 ---
 ## Detailed explanation of the Python bytecode:
 
-Bytecode is an intermediate, low-level representation of code that sits between human-readable source code and machine-executable binary code. It is designed to be executed by a virtual machine (VM) or interpreter rather than directly by the computer's hardware.
+Bytecode is computer object code that an interpreter converts into binary machine code so it can be read by a computer's hardware processor.
 
+The interpreter is typically implemented as a virtual machine (VM) that translates the bytecode for the target platform. The machine code consists of a set of instructions that the processor understands.
+
+Bytecode is platform-independent and more efficient than source code, but not as low-level as machine-specific binary. It serves as an intermediate step in execution, enabling portability across different systems while maintaining faster performance than direct source interpretation.
 ![image](https://github.com/user-attachments/assets/8c1b7d14-4844-41de-94ca-0dc2e1fe4bcd)
 
 ![image](https://github.com/user-attachments/assets/039dbb8b-74d6-4dd7-8f7a-a68ac79a0f31)
