@@ -218,3 +218,6 @@ When you run a Python program:
 | **IronPython** | Compiles Python code to the .NET Common Intermediate Language (CIL), running on the .NET CLR |
 
 ---
+# Practice:
+
+![image](https://github.com/user-attachments/assets/622ce623-f095-4fb5-96ba-3bf07fd9265a)
