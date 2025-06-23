@@ -146,5 +146,58 @@ Source Code (.py)
 - **Performance**: Bytecode caching avoids re-parsing.
 - **Portability**: Same bytecode runs on any PVM (Windows/Linux/macOS).
 - **Debugging**: Inspect bytecode with `dis` module to optimize code.
+---
+Detailed explanation of the Python bytecode execution shown in your terminal output:
 
-Would you like a practical example (e.g., modifying bytecode or profiling each step)?
+![image](https://github.com/user-attachments/assets/464e05a8-f7b4-4661-b566-3bde2e5b8f38)
+![Screenshot 2025-06-23 101230](https://github.com/user-attachments/assets/6fbf2377-4a98-476e-9f78-02ddf5aeb62c)
+---
+#### **Run the disassembler**
+```bash
+python -m dis file.py
+```
+Or for interactive inspection:
+```python
+import dis
+dis.dis(compile("x = 10; print(x)", "<string>", "exec"))
+```
+---
+#### **Bytecode Instructions Explained**
+
+| Line | Offset | Opcode         | Argument (Details)          | What It Does                                                                 |
+|------|--------|----------------|-----------------------------|------------------------------------------------------------------------------|
+| 0    | 0      | `RESUME`       | `0`                         | Initializes the function frame (no arguments here).                          |
+| 1    | 2      | `LOAD_CONST`   | `0 (10)`                    | Loads the constant `10` onto the stack.                                      |
+|      | 4      | `STORE_NAME`   | `0 (x)`                     | Stores the top of stack (`10`) into the variable `x`.                        |
+| 2    | 6      | `PUSH_NULL`    |                             | Prepares for a function call (ensures clean stack state).                    |
+|      | 8      | `LOAD_NAME`    | `1 (print)`                 | Loads the `print` function onto the stack.                                   |
+|      | 10     | `LOAD_NAME`    | `0 (x)`                     | Loads the value of `x` (`10`) onto the stack.                                |
+|      | 12     | `CALL`         | `1`                         | Calls `print` with 1 argument (`x`).                                         |
+|      | 20     | `POP_TOP`      |                             | Discards the return value from `print` (which is `None`).                    |
+|      | 22     | `RETURN_CONST` | `1 (None)`                  | Returns `None` (implicit in Python functions).                               |
+
+---
+#### **Execution Flow**
+1. **Initialization**:  
+   - `RESUME 0` sets up the execution frame.
+
+2. **Variable Assignment**:  
+   - `10` is loaded as a constant and stored in `x`.
+
+3. **Function Call**:  
+   - `print(x)` is executed by:
+     - Loading `print` and `x` onto the stack.
+     - `CALL 1` invokes `print` with 1 argument.
+     - `POP_TOP` cleans up after `print` (since it returns `None`).
+
+4. **Termination**:  
+   - `RETURN_CONST` ends execution (implicit `None` return).
+---
+#### **Key Observations**
+- **Stack-Based Operations**:  
+  Python uses a stack to manage data during execution (e.g., `LOAD_*` pushes, `STORE_*` pops).
+- **Implicit `None`**:  
+  Even simple scripts return `None` (visible in the last instruction).
+- **Optimizations**:  
+  `PUSH_NULL` is a CPython 3.11+ optimization for safer function calls.
+---
