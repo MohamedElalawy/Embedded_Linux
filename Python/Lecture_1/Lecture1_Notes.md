@@ -70,7 +70,7 @@ The **difference between an interpreter and a compiler** lies in **how they tran
 
 ---
 
-Here's a detailed breakdown of the Python interpreter process illustrated in your slide, with clear technical explanations:
+Detailed breakdown of the Python interpreter process illustrated in your slide, with clear technical explanations:
 
 ---
 
