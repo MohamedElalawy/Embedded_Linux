@@ -86,6 +86,7 @@ Explanation of the Python bytecode and interpreter concepts:
   ```
   Source Code → Bytecode → Virtual Machine → Machine Code → Execution
   ```
+![image](https://github.com/user-attachments/assets/30e402ab-076f-4e1d-9bb2-f4837753cffc)
 
 #### 2. **Key Components**
 - **Virtual Machine (VM)**:  
