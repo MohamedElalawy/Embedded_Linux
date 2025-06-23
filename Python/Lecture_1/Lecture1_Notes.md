@@ -218,9 +218,9 @@ When you run a Python program:
 | **IronPython** | Compiles Python code to the .NET Common Intermediate Language (CIL), running on the .NET CLR |
 
 ---
-# Practice:
+# Execution ways:
 
-![image](https://github.com/user-attachments/assets/622ce623-f095-4fb5-96ba-3bf07fd9265a)
+![image](https://github.com/user-attachments/assets/d14f02c9-9e75-44e0-a43f-c74a39567d36)
 
 ---
 ## OR:
