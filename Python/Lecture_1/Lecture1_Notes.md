@@ -166,6 +166,7 @@ dis.dis(compile("x = 10; print(x)", "<string>", "exec"))
 ---
 ## PVM
 The **Python Virtual Machine (PVM)** is the component of the Python interpreter that **executes bytecode instructions**.
+![image](https://github.com/user-attachments/assets/29344943-130e-4f7d-aaaa-b099ff274455)
 
 ---
 
@@ -182,31 +183,6 @@ When you run a Python program:
 * 📝 You write Python code → `x = 10`
 * 🧾 Python compiles it into bytecode → `LOAD_CONST`, `STORE_NAME`, etc.
 * ⚙️ The **PVM reads those instructions** and performs the actual work → store `10` in memory as `x`.
-
----
-
-## 🔍 Example
-
-Given:
-
-```python
-x = 10
-print(x)
-```
-
-Compiled bytecode:
-
-```
-LOAD_CONST 10
-STORE_NAME x
-LOAD_NAME print
-LOAD_NAME x
-CALL_FUNCTION
-POP_TOP
-```
-
-Each of these bytecode instructions is **executed by the PVM**, like a CPU executing assembly instructions.
-
 ---
 
 ## 📦 Where Is the PVM?
