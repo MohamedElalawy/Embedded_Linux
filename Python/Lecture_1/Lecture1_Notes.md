@@ -221,3 +221,44 @@ When you run a Python program:
 # Practice:
 
 ![image](https://github.com/user-attachments/assets/622ce623-f095-4fb5-96ba-3bf07fd9265a)
+
+---
+## OR:
+
+![image](https://github.com/user-attachments/assets/9e8f3622-9a5d-4649-89d5-de372084aa6e)
+
+The line:
+
+```python
+#!/usr/bin/env python3
+```
+
+is called a **shebang** (or hashbang), and it's used at the **top of a script file** to tell the operating system **how to execute the file**.
+
+---
+
+## ✅ What It Does
+
+* `#!` tells the OS: "Use the program that follows to run this script"
+* `/usr/bin/env python3` tells it to **find `python3` in the system’s `PATH`**
+
+So when you make your script executable and run it like this:
+
+```bash
+./test.py
+```
+
+The OS runs:
+
+```bash
+/usr/bin/env python3 test.py
+```
+
+---
+
+### Benefits:
+
+* ✅ More **portable** across systems (Windows Subsystem for Linux, macOS, various Linux distros)
+* ✅ Uses the **first `python3`** found in the user’s `PATH`, which might be a virtualenv or custom install
+
+---
