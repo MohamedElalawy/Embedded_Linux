@@ -400,4 +400,113 @@ Because:
 * C is excellent for **performance**, **low-level hardware control**, and **embedded systems** — but requires **platform-specific builds**.
 
 ---
+# raw string in detail.
+
+---
+
+## 🧵 What Is a Raw String in Python?
+
+A **raw string** is a string **where backslashes (`\`) are treated as literal characters**, not as escape characters.
+
+You write a raw string by prefixing the string with `r` or `R`:
+
+```python
+normal_str = "C:\\Users\\Muhammad"
+raw_str = r"C:\Users\Muhammad"
+```
+
+Both result in the same string **visually**, but the **interpretation** differs.
+
+---
+
+### 📌 Why Use Raw Strings?
+
+Because in **normal strings**, backslashes are used for **escape sequences**, like:
+
+| Escape | Meaning             |
+| ------ | ------------------- |
+| `\n`   | Newline             |
+| `\t`   | Tab                 |
+| `\\`   | Backslash           |
+| `\"`   | Quote inside string |
+
+This can make file paths or regular expressions very hard to read.
+
+### 🧪 Example
+
+```python
+print("C:\\Users\\Muhammad")  # Normal string
+print(r"C:\Users\Muhammad")   # Raw string
+```
+
+Both will print:
+
+```
+C:\Users\Muhammad
+```
+
+But raw string is easier to write.
+
+---
+
+### 🧬 Where Are Raw Strings Useful?
+
+#### ✅ File Paths
+
+```python
+path = r"C:\new_folder\test\name.txt"
+```
+
+#### ✅ Regular Expressions
+
+```python
+import re
+pattern = r"\d+\.\d+"   # Matches a float like "123.45"
+re.match(pattern, "123.45")
+```
+
+If you didn’t use `r""`, you'd have to write `\\d+\\.\\d+`.
+
+---
+
+### ⚠️ Raw Strings Still Use Quotes
+
+```python
+r"Hello\nWorld"   # Output: Hello\nWorld (literally, not a newline)
+```
+
+Raw strings **don’t escape the backslash**, but still require:
+
+* **Quotes**
+* Proper syntax (e.g. `r"abc\"` is invalid because `\"` ends the string)
+
+---
+
+### ⚠️ Caveat
+
+Raw strings **cannot end with an odd number of backslashes**:
+
+```python
+r"C:\new_folder\"     # ❌ SyntaxError!
+```
+
+You need to double the final backslash:
+
+```python
+r"C:\new_folder\\"    # ✅ Works fine
+```
+
+---
+
+## ✅ Summary
+
+| Concept         | Explanation                                 |
+| --------------- | ------------------------------------------- |
+| Raw String      | A string that treats backslashes as literal |
+| Syntax          | Prefix with `r` or `R` (e.g. `r"..."`)      |
+| Best Use Cases  | File paths, regular expressions             |
+| Escape behavior | No escape sequences (e.g., `\n` stays `\n`) |
+
+---
+
 
