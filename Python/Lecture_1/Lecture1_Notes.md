@@ -828,6 +828,8 @@ Immutable sequence of Unicode characters
 message = "Hello, World!"
 print(message[0])  # Output: H
 ```
+![image](https://github.com/user-attachments/assets/594055e8-0414-4006-89a4-dd2414a97d3b)
+
 
 #### b. `list`
 
