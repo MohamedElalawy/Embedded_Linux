@@ -827,6 +827,72 @@ Unordered collection of unique elements
 fruits = {"apple", "banana", "apple", "orange"}
 print(fruits)  # Output: {'apple', 'banana', 'orange'}
 ```
+Ah, got it! Here's the explanation and code for using **sets with tree** and **sets with hashmap** in **Python**:
+
+---
+
+## ✅ Set Using Hashmap (Default `set`)
+
+Python’s built-in `set` is implemented using a **hash table** (hashmap).
+
+### 🔹 Characteristics:
+
+* **Unordered** (insertion order preserved in Python 3.7+)
+* **Very fast** lookups: average **O(1)** for add, remove, and check
+* Automatically **removes duplicates**
+
+### ✅ Example:
+
+```python
+s = set()
+s.add(10)
+s.add(5)
+s.add(20)
+s.add(10)  # Duplicate, won't be added again
+
+print(s)  # Output (unordered): {10, 20, 5}
+print(5 in s)  # True
+```
+
+---
+
+## 🌳 Set Using Tree (Using `SortedContainers` or `bisect`)
+
+Python does not have a built-in tree-based set, but you can use the third-party library `sortedcontainers` or the built-in `bisect` module to simulate it.
+
+### 🔹 Option 1: Using `SortedSet` from `sortedcontainers`
+
+(Install using `pip install sortedcontainers`)
+
+```python
+from sortedcontainers import SortedSet
+
+tree_set = SortedSet()
+tree_set.add(10)
+tree_set.add(5)
+tree_set.add(20)
+
+print(tree_set)  # Output: SortedSet([5, 10, 20])
+print(10 in tree_set)  # True
+```
+
+* **Sorted** automatically
+* Backed by a **balanced tree**
+* Insertion/removal/search: **O(log n)**
+
+---
+
+
+---
+
+## 🔚 Summary
+
+| Feature     | `set` (Hashmap)           | `SortedSet` (Tree)           |
+| ----------- | ------------------------- | ---------------------------- |
+| Ordering    | No (insertion order only) | Yes (sorted)                 |
+| Lookup Time | O(1) average              | O(log n)                     |
+| Best For    | Fast lookup               | Ordered data, range queries  |
+| Module      | Built-in                  | `sortedcontainers` or custom |
 
 ---
 
@@ -898,7 +964,13 @@ items = [1, "a", 3.5]    # List
 point = (5, 9)           # Tuple
 
 print(type(a), type(text), type(student))
+
 ```
+![image](https://github.com/user-attachments/assets/61ac8e97-ae84-459e-9fef-850944c8036f)
+
+### Use sets for membership tests (e.g., x in collection) when dealing with large datasets.
+### Use lists when order matters or duplicates are needed.
+![image](https://github.com/user-attachments/assets/a8e37316-30fb-4d4c-afec-d7c5b55bdea5)
 
 ---
 
