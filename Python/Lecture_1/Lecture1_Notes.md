@@ -744,7 +744,6 @@ For memory-critical apps, people often:
 
 ![image](https://github.com/user-attachments/assets/8e0bfcb2-e12d-4e98-98fd-dbec3917565b)
 
-This diagram illustrates the **Python Data Types** hierarchy. Let's break it down in detail with **definitions** and **examples** for each type.
 
 ---
 
