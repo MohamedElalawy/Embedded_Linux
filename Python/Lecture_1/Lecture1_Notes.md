@@ -799,9 +799,23 @@ Represents truth values: `True` or `False`
 Often used in conditions.
 
 ```python
-is_admin = True
-is_active = False
+print(10 > 9)        # True
+print(bool("Hello")) # True
+print(bool(15))      # True
+print(10 > 9)        # True
+print(1 > 2)         # False
+print(bool("Hello")) # True
+print(bool(15))      # True
+print(bool(False))   # False
+print(bool(None))    # False
+print(bool(0))       # False (line 10 had '@' which was invalid, replaced with 0)
+print(bool(""))      # False (empty string)
+print(bool(()))      # False (empty tuple)
+print(bool([]))      # False (empty list)
+print(bool({}))      # False (empty set/dict - fixed from second empty tuple)
 ```
+![image](https://github.com/user-attachments/assets/8fe63fdd-5270-4e21-8987-dae4fa0ba665)
+
 
 ---
 
@@ -888,3 +902,21 @@ print(type(a), type(text), type(student))
 
 ---
 
+## slicing
+
+```python
+x = ["moatasem", 1, 2.5, 3, 4, 5, 8, 9]  # Single-level list with 8 elements
+
+x[1] = 55  # Replaces the second element (index 1) from 1 to 55
+
+print(x[0])    # Prints first element: "moatasem"
+print(x[1])    # Prints second element (now 55): 55
+
+# Slicing operations:
+print(x[1:3])  # Prints elements from index 1 to 2 (exclusive 3): [55, 2.5]
+print(x[-1])   # Prints last element: 9
+print(x[-2])   # Prints second last element: 8
+print(x[2:])   # Prints from index 2 to end: [2.5, 3, 4, 5, 8, 9]
+print(x[1:4:2]) # Prints every 2nd element from index 1 to 3: [55, 3] (indices 1 and 3)
+```
+![image](https://github.com/user-attachments/assets/c19b96ff-b1c1-414e-b133-9e83a6ee483c)
