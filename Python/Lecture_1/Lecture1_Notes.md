@@ -1,4 +1,4 @@
-# Python Course - Goals & Applications
+1# Python Course - Goals & Applications
 
 ## Core Python Concepts
 - GUI Development
@@ -839,6 +839,8 @@ Mutable sequence of items
 numbers = [1, 2, 3, 4]
 numbers.append(5)
 ```
+![image](https://github.com/user-attachments/assets/26d5fa21-3d5a-4a16-8f6c-dfccdd3e824c)
+
 
 #### c. `tuple`
 
