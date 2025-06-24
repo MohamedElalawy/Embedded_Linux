@@ -606,7 +606,6 @@ x < y   →   x.__lt__(y)
 
 ---
 
-Great question! Let’s dive deep into:
 
 # 🧹 Python's Garbage Collector
 
