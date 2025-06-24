@@ -849,6 +849,8 @@ Immutable sequence of items
 ```python
 coordinates = (10.0, 20.0)
 ```
+![image](https://github.com/user-attachments/assets/f4b0301b-0d0a-47a2-93a1-d8bf8dc03638)
+
 
 ---
 
