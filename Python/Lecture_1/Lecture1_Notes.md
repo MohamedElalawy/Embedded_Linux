@@ -740,3 +740,146 @@ For memory-critical apps, people often:
 
 ---
 
+# Python Data types:
+
+![image](https://github.com/user-attachments/assets/8e0bfcb2-e12d-4e98-98fd-dbec3917565b)
+
+This diagram illustrates the **Python Data Types** hierarchy. Let's break it down in detail with **definitions** and **examples** for each type.
+
+---
+
+## 🧠 Main Python Data Types:
+
+### 1. **Numeric Types**
+
+Used to store numbers.
+
+#### a. `int` (Integer)
+
+Whole numbers (positive or negative)
+
+```python
+a = 10
+b = -5
+```
+
+#### b. `float` (Floating-point)
+
+Decimal or fractional numbers
+
+```python
+pi = 3.14
+g = -9.81
+```
+
+#### c. `complex` (Complex Number)
+
+Numbers with real and imaginary parts
+
+```python
+z = 2 + 3j
+```
+
+---
+
+### 2. **Dictionary**
+
+Stores key-value pairs.
+Mutable and unordered.
+
+```python
+person = {"name": "Alice", "age": 25}
+print(person["name"])  # Output: Alice
+```
+
+---
+
+### 3. **Boolean**
+
+Represents truth values: `True` or `False`
+Often used in conditions.
+
+```python
+is_admin = True
+is_active = False
+```
+
+---
+
+### 4. **Set**
+
+Unordered collection of unique elements
+
+```python
+fruits = {"apple", "banana", "apple", "orange"}
+print(fruits)  # Output: {'apple', 'banana', 'orange'}
+```
+
+---
+
+### 5. **Sequence Types**
+
+Ordered collection of items.
+
+#### a. `str` (String)
+
+Immutable sequence of Unicode characters
+
+```python
+message = "Hello, World!"
+print(message[0])  # Output: H
+```
+
+#### b. `list`
+
+Mutable sequence of items
+
+```python
+numbers = [1, 2, 3, 4]
+numbers.append(5)
+```
+
+#### c. `tuple`
+
+Immutable sequence of items
+
+```python
+coordinates = (10.0, 20.0)
+```
+
+---
+
+## 📌 Notes:
+
+* Python is **dynamically typed**, meaning you don't need to declare types explicitly.
+* Everything in Python is an **object**.
+
+---
+
+## 🛠️ Example Program (All Data Types)
+
+```python
+# Numeric
+a = 42          # int
+b = 3.14        # float
+c = 2 + 5j      # complex
+
+# Boolean
+is_valid = True
+
+# Dictionary
+student = {"name": "Laila", "grade": "A"}
+
+# Set
+unique_numbers = {1, 2, 3, 2}
+
+# Sequence Types
+text = "Python"          # String
+items = [1, "a", 3.5]    # List
+point = (5, 9)           # Tuple
+
+print(type(a), type(text), type(student))
+```
+
+---
+
