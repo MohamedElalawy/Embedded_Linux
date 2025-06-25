@@ -1458,5 +1458,82 @@ Now the `else` won’t run because the loop was broken early.
 
 ---
 
+# shorthand for:
+
+
+In Python, **shorthand for `for` loop with list** is done using **list comprehension**.
+
+---
+
+## ✅ Basic Syntax of List Comprehension:
+
+```python
+[expression for item in iterable]
+```
+
+---
+
+## 🔁 Equivalent to:
+
+```python
+result = []
+for item in iterable:
+    result.append(expression)
+```
+
+---
+
+## 🧠 Examples:
+
+### 1. **Square numbers in a list**
+
+```python
+squares = [x**2 for x in range(5)]
+print(squares)  # ➝ [0, 1, 4, 9, 16]
+```
+
+---
+
+### 2. **Filter with `if`**
+
+```python
+evens = [x for x in range(10) if x % 2 == 0]
+print(evens)  # ➝ [0, 2, 4, 6, 8]
+```
+
+---
+
+### 3. **Nested loop**
+
+```python
+pairs = [(x, y) for x in [1, 2] for y in [3, 4]]
+print(pairs)  # ➝ [(1, 3), (1, 4), (2, 3), (2, 4)]
+```
+
+---
+
+### 4. **If-else in expression**
+
+```python
+labels = ["even" if x % 2 == 0 else "odd" for x in range(5)]
+print(labels)  # ➝ ['even', 'odd', 'even', 'odd', 'even']
+```
+
+---
+
+## 📌 Summary:
+
+| Purpose              | Syntax Example                             |
+| -------------------- | ------------------------------------------ |
+| Basic transformation | `[x*2 for x in list]`                      |
+| With condition       | `[x for x in list if x > 0]`               |
+| With if-else logic   | `["yes" if x > 0 else "no" for x in list]` |
+| Nested loops         | `[(x, y) for x in a for y in b]`           |
+
+---
+
+# Reversing a string:
+
+![image](https://github.com/user-attachments/assets/b0898bf0-4b40-4c85-bb80-fa35b86ae55a)
 
 
