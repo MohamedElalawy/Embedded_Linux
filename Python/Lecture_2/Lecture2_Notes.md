@@ -1,6 +1,7 @@
 # Lecture Topics
 ---
-- **pip**  
+- **pip**
+- **Useful scripts**  
 - **Types of function**  
 - **Strings**  
 - **Help**  
@@ -276,3 +277,212 @@ pip install -r requirements.txt
 ---
 
 
+# When you have **multiple Python versions**, you must be careful **which `pip` you’re using**, because each Python version has its own `pip`.
+
+---
+
+###  **Key idea**
+
+* **`pip`** installs packages for **the Python version it’s linked to**.
+* You can easily end up with:
+
+  * `pip3` → for Python 3
+  * `pip3.10`, `pip3.11`, etc. → for specific Python 3 versions
+* Or you might be using a **virtual environment**, which has its own `pip`.
+
+---
+
+###  **How to check**
+
+**1️ Check which `pip` you’re using**
+
+```bash
+which pip
+which pip3
+which pip3.11
+```
+
+---
+
+**2️ Check which Python version it’s tied to**
+
+![image](https://github.com/user-attachments/assets/4609e6b1-b3ff-484e-88a9-6a9a7fdc4629)
+
+```bash
+pip --version
+```
+---
+
+** Safer way: use `python -m pip`**
+
+The best practice is to use:
+
+```bash
+python3.11 -m pip install somepackage
+```
+
+ This guarantees that `pip` is run by **that Python interpreter**, so you know exactly where the package will go.
+
+---
+
+###  **Common mistake**
+
+Installing with `sudo pip` to the system Python can break things — especially if your OS uses that Python for system tools.
+**Safer:** Use a `venv` or `--user`.
+
+---
+list all installed modules we have in python:
+
+![image](https://github.com/user-attachments/assets/2ed76dd7-2d55-4dc4-9d0d-99b29572281c)
+
+---
+# Useful Scripts:
+
+## psutil
+psutil (short for Process and System Utilities) is a cross-platform Python library for retrieving information on running processes and system resource usage.
+ **simple system monitor** using `psutil`.:
+
+✅ Shows **CPU usage**
+✅ Shows **RAM usage**
+✅ Shows **Disk usage**
+✅ Lists **top processes by CPU usage**
+
+---
+
+### 🖥️ **Mini System Monitor (using `psutil`)**
+
+```python
+import psutil
+import time
+
+def show_cpu():
+    print(f"CPU Usage: {psutil.cpu_percent(interval=1)}%")
+
+def show_memory():
+    mem = psutil.virtual_memory()
+    print(f"Memory Usage: {mem.percent}% ({mem.used / (1024**3):.2f} GB used of {mem.total / (1024**3):.2f} GB)")
+
+def show_disk():
+    disk = psutil.disk_usage('/')
+    print(f"Disk Usage: {disk.percent}% ({disk.used / (1024**3):.2f} GB used of {disk.total / (1024**3):.2f} GB)")
+
+def show_top_processes(n=5):
+    processes = []
+    for proc in psutil.process_iter(['pid', 'name', 'cpu_percent']):
+        try:
+            processes.append(proc.info)
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            continue
+    # Sort by CPU percent descending
+    processes = sorted(processes, key=lambda p: p['cpu_percent'], reverse=True)
+    print(f"\nTop {n} Processes by CPU usage:")
+    for proc in processes[:n]:
+        print(f"PID: {proc['pid']}, Name: {proc['name']}, CPU%: {proc['cpu_percent']}")
+
+def main():
+    while True:
+        print("="*30)
+        show_cpu()
+        show_memory()
+        show_disk()
+        show_top_processes()
+        time.sleep(5)  # Refresh every 5 seconds
+
+if __name__ == "__main__":
+    main()
+```
+
+---
+
+### ⚙️ **How to run it**
+
+1️⃣ Save this as `monitor.py`
+2️⃣ Install `psutil` if you haven’t:
+
+```bash
+pip install psutil
+```
+
+3️⃣ Run it:
+
+```bash
+python monitor.py
+```
+
+![image](https://github.com/user-attachments/assets/eb75083d-76d1-4878-a6a9-c72992285145)
+
+---
+
+---
+## OS module:
+
+---
+
+ **`os`** is a **built-in Python module** for **interacting with the operating system**.
+It provides tools for:
+
+* Working with **files and directories**
+* Getting or setting **environment variables**
+* Running **system commands**
+* Managing **paths** (along with `os.path`)
+
+It’s cross-platform: the same code works on Windows, macOS, Linux (with minor exceptions).
+
+---
+
+##  **Common things you can do**
+
+| Task                          | Example                                    |
+| ----------------------------- | ------------------------------------------ |
+| Get current working directory | `os.getcwd()`                              |
+| Change directory              | `os.chdir('/path')`                        |
+| List files in a directory     | `os.listdir('.')`                          |
+| Make new directories          | `os.mkdir('new_dir')`                      |
+| Remove files or directories   | `os.remove('file.txt')`, `os.rmdir('dir')` |
+| Run system commands           | `os.system('ls -l')`                       |
+| Get environment variables     | `os.environ['HOME']`                       |
+| Join paths safely             | `os.path.join()`                           |
+
+---
+### Python script that opens Nautilus file manager for **Downloads**, **Python**, and **venv** directories:
+
+```python
+#!/usr/bin/python3
+import os
+import subprocess
+
+# Directory options (customize paths if needed)
+directories = {
+    "Downloads": os.path.expanduser("~/Downloads"),
+    "Python": os.path.expanduser("~/Desktop/Python"),  # From your Desktop list
+    "venv": os.path.expanduser("~/Desktop/venv")       # From your Desktop list
+}
+
+def main():
+    print("Available directories:")
+    for i, (name, path) in enumerate(directories.items()):
+        print(f"{i}: {name}")
+    
+    try:
+        choice = int(input("Select directory (0-2): "))
+        selected_name = list(directories.keys())[choice]
+        selected_path = directories[selected_name]
+        
+        if os.path.exists(selected_path):
+            subprocess.run(["nautilus", selected_path])
+        else:
+            print(f"Error: Path doesn't exist - {selected_path}")
+    
+    except (ValueError, IndexError):
+        print("Invalid input. Please enter 0, 1, or 2")
+    except Exception as e:
+        print(f"Error: {str(e)}")
+
+if __name__ == "__main__":
+    main()
+```
+The script shows a numbered menu and open Nautilus in the selected directory.
+
+![image](https://github.com/user-attachments/assets/224ab837-f2ee-4266-808f-955b38818015)
+
+---
