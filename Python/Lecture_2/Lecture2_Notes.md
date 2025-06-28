@@ -1,0 +1,17 @@
+# Lecture Topics
+---
+- **Types of function**  
+- **Strings**  
+- **Help**  
+- **Function**  
+- **Global variable**  
+- **Lambda**  
+- **Quick task**  
+- **Lab**  
+- **Modules**  
+- **Garbage Collector**  
+- **List**  
+- **Tuple**  
+- **Set**  
+- **Tasks**
+---
