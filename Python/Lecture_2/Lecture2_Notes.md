@@ -216,3 +216,63 @@ pip install -r requirements.txt
 
 ---
 
+**`apt-cache show <package>`** — displays detailed information about a Debian/Ubuntu package, like version, description, dependencies, and maintainer.
+**Example:** `apt-cache show python3-pip` shows info about the `python3-pip` package.
+
+![image](https://github.com/user-attachments/assets/279cc454-b2e4-4c77-bad7-7e4004ba2c0b)
+
+![image](https://github.com/user-attachments/assets/f5540122-ac64-40d4-a9a6-edcd7084c851)
+
+
+---
+# **Python Package Installation Methods:**
+
+![image](https://github.com/user-attachments/assets/95dd140c-0b3c-457a-8c34-49d4857a8e05)
+
+
+1. **apt (Recommended for System Packages)**
+   - Command: `sudo apt install python3-<package>`
+   - Pros:
+     * Fully integrated with system updates
+     * Dependency-safe (won't break system tools)
+     * Managed by Debian/Ubuntu
+   - Cons:
+     * Often older versions
+     * Limited selection
+   - Best for: Core dependencies like `python3-dev`, `python3-venv`
+
+2. **pip in Virtual Environments (Recommended for Projects)**
+   - Setup:
+     ```bash
+     python3 -m venv myenv
+     source myenv/bin/activate
+     ```
+   - Install: `pip install <package>`
+   - Pros:
+     * Latest package versions
+     * Full PyPI ecosystem access
+     * Isolated from system
+   - Best for: Project-specific packages (Flask, Django, etc.)
+
+3. **pipx (For Global Tools)**
+   - Setup: `sudo apt install pipx`
+   - Install: `pipx install <package>`
+   - Pros:
+     * Isolated installations
+     * Safe for global CLI tools
+   - Best for: Applications like `black`, `poetry`, `youtube-dl`
+
+4. **System-wide pip (Not Recommended)**
+   - Blocked by default (PEP 668)
+   - Risky alternatives:
+     ```bash
+     pip install --user <package>  # May still cause conflicts
+     pip install --break-system-packages <package>  # Dangerous
+     ```
+
+**Key Differences:**
+- Stability: `apt` > `pipx` > `pip`
+- Freshness: `pip` > `pipx` > `apt`
+---
+
+
