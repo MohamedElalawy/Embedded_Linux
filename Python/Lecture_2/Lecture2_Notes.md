@@ -5,7 +5,7 @@
 
 ---
 
-### 📌 **What is `pip`?**
+###  **What is `pip`?**
 
 **`pip`** stands for **“Pip Installs Packages”** (it’s a recursive acronym).
 It’s the **standard package manager** for Python.
@@ -13,7 +13,7 @@ You use `pip` to **install**, **upgrade**, and **uninstall** **Python packages**
 
 ---
 
-### ⚙️ **How to check if you have `pip` installed**
+###  **How to check if you have `pip` installed**
 
 Open a terminal (or command prompt) and run:
 
@@ -34,7 +34,7 @@ python -m pip --version
 
 ---
 
-### 🚀 **Basic `pip` commands**
+###  **Basic `pip` commands**
 
 | Action                       | Command                              | Example                       |
 | ---------------------------- | ------------------------------------ | ----------------------------- |
@@ -70,14 +70,14 @@ python -m pip --version
 
 ---
 
-### 📍 **Where does `pip` install packages?**
+###  **Where does `pip` install packages?**
 
 By default, it installs to the **Python environment** you’re using —
 either the **system Python**, a **virtual environment** (`venv`), or a **conda environment**.
 
 ---
 
-### ✅ **Best practice**
+###  **Best practice**
 
 When working on projects, it’s good practice to use a **virtual environment**
 to isolate dependencies:
@@ -95,9 +95,9 @@ pip install <package>
 
 ---
 
-## ✅ 1️⃣ How to set up a **virtual environment** (`venv`)
+##  How to set up a **virtual environment** (`venv`)
 
-### 📌 **Step 1: Create the `venv`**
+###  **Step 1: Create the `venv`**
 
 In your project folder, open a terminal or command prompt and run:
 
@@ -111,9 +111,9 @@ python -m venv venv
 
 ---
 
-### 📌 **Step 2: Activate the `venv`**
+###  **Step 2: Activate the `venv`**
 
-**➡️ On macOS/Linux:**
+** On macOS/Linux:**
 
 ```bash
 source venv/bin/activate
@@ -143,7 +143,7 @@ deactivate
 
 ---
 
-### 📌 **Step 3: Install packages in your `venv`**
+###  **Step 3: Install packages in your `venv`**
 
 Once activated, install any packages:
 
@@ -155,13 +155,13 @@ Packages will now install **inside the `venv`**, not globally.
 
 ---
 
-## ✅ 2️⃣ How to create a `requirements.txt`
+##  How to create a `requirements.txt`
 
 A `requirements.txt` file **lists all the packages** your project needs — so you (or someone else) can recreate the same environment.
 
 ---
 
-### 📌 **Step 1: Install your packages**
+###  **Step 1: Install your packages**
 
 While your `venv` is active:
 
@@ -171,7 +171,7 @@ pip install <your-packages>
 
 ---
 
-### 📌 **Step 2: Generate `requirements.txt`**
+###  **Step 2: Generate `requirements.txt`**
 
 Run:
 
@@ -190,7 +190,7 @@ requests==2.31.0
 
 ---
 
-### 📌 **Step 3: Install from `requirements.txt` later**
+###  **Step 3: Install from `requirements.txt` later**
 
 To recreate the same environment on another machine:
 
@@ -332,7 +332,7 @@ psutil (short for Process and System Utilities) is a cross-platform Python libra
 
 ---
 
-### 🖥️ **Mini System Monitor (using `psutil`)**
+###  **Mini System Monitor (using `psutil`)**
 
 ```python
 import psutil
@@ -377,7 +377,7 @@ if __name__ == "__main__":
 
 ---
 
-### ⚙️ **How to run it**
+###  **How to run it**
 
 1️⃣ Save this as `monitor.py`
 2️⃣ Install `psutil` if you haven’t:
@@ -870,9 +870,303 @@ print(dir(os))
 ---
 
 # Functions
-
-
 ![image](https://github.com/user-attachments/assets/ae75ebc3-9e2d-42cd-94b5-e78d269381fd)
+
+---
+
+###  **What is a function?**
+
+A **function** is a reusable block of code that performs a specific task.
+You define it once and call (use) it whenever you want.
+
+---
+
+###  **Basic syntax**
+
+```python
+def function_name(parameters):
+    # code block
+    return value  # optional
+```
+
+---
+
+###  **Example**
+
+```python
+def greet(name):
+    print(f"Hello, {name}!")
+
+greet("Muhammad")   # Output: Hello, Muhammad!
+```
+
+---
+
+###  **Returning values**
+
+```python
+def add(a, b):
+    return a + b
+
+result = add(3, 5)
+print(result)   # Output: 8
+```
+
+---
+
+###  **Default parameters**
+
+```python
+def greet(name="World"):
+    print(f"Hello, {name}!")
+
+greet()          # Output: Hello, World!
+greet("Alice")   # Output: Hello, Alice!
+```
+
+---
+
+### ✅ **Keyword arguments**
+
+```python
+def power(base, exponent):
+    return base ** exponent
+
+print(power(2, 3))            # 8
+print(power(exponent=3, base=2))  # 8
+```
+
+---
+
+###  **Variable number of arguments**
+
+* **`*args`** → accepts any number of **positional** arguments
+* **`**kwargs`** → accepts any number of **keyword** arguments
+
+```python
+def show_args(*args, **kwargs):
+    print("Positional:", args)
+    print("Keyword:", kwargs)
+
+show_args(1, 2, 3, name="Ali", age=25)
+# Positional: (1, 2, 3)
+# Keyword: {'name': 'Ali', 'age': 25}
+```
+
+---
+
+###  **Lambda functions**
+
+A short way to write small anonymous functions:
+
+```python
+add = lambda x, y: x + y
+print(add(2, 3))  # 5
+```
+
+---
+
+### In Python, when you call a function, **all positional arguments must come before keyword arguments**.
+### If you mix the order, Python raises:
+
+```
+SyntaxError: positional argument follows keyword argument
+```
+
+---
+
+###  **Example of the error**
+
+```python
+def order(item, quantity, price):
+    print(f"Item: {item}, Quantity: {quantity}, Price: {price}")
+
+#  This will raise an error:
+order(item="Book", 2, price=10)
+```
+
+**Why?**
+Because `item="Book"` is a keyword argument, but `2` (positional) comes *after* it.
+
+---
+
+###  **Correct ways**
+
+**All positional first:**
+
+```python
+order("Book", 2, 10)
+```
+
+**Or keyword arguments after positional:**
+
+```python
+order("Book", quantity=2, price=10)
+```
+
+**Or all keyword:**
+
+```python
+order(item="Book", quantity=2, price=10)
+```
+
+---
+
+#### default with oring:
+
+```python
+def my_function(name: str | None = "test", age=0) -> None:
+    print(f"Name: {name}, Age: {age}")
+    return None
+```
+
+This **defines** a function with:
+
+* `name`: a `str` or `None` (type hint) — default is `"test"`.
+* `age`: default is `0`.
+
+---
+
+#### Adding parameter data types good practice:
+
+
+* Type hints act as built-in documentation.
+
+* Others don’t need to guess the expected input or output.
+
+```python
+def add(x: int, y: int) -> int:
+    return x + y
+```
+
+
+---
+# variadic functions:
+
+---
+
+##  **What is a variadic function?**
+
+A **variadic function** accepts **any number of arguments** — instead of a fixed number.
+In Python, this is done with:
+
+* `*args` → collects **positional arguments** into a tuple.
+* `**kwargs` → collects **keyword arguments** into a dict.
+
+---
+
+## ✅ **Basic example**
+
+```python
+def my_variadic_function(*args):
+    print(args)
+
+my_variadic_function(1, 2, 3)
+# Output: (1, 2, 3)
+```
+
+---
+
+## ✅ **Positional and keyword**
+
+```python
+def my_variadic_function(*args, **kwargs):
+    print("Positional:", args)
+    print("Keyword:", kwargs)
+
+my_variadic_function(1, 2, 3, name="Ali", age=22)
+
+# Output:
+# Positional: (1, 2, 3)
+# Keyword: {'name': 'Ali', 'age': 22}
+```
+
+---
+
+## ✅ \*\*Combining normal, \*args, and **kwargs**
+
+```python
+def example(a, b, *args, **kwargs):
+    print(f"a: {a}, b: {b}")
+    print(f"args: {args}")
+    print(f"kwargs: {kwargs}")
+
+example(1, 2, 3, 4, 5, name="Ali", country="Egypt")
+
+# a: 1, b: 2
+# args: (3, 4, 5)
+# kwargs: {'name': 'Ali', 'country': 'Egypt'}
+```
+
+---
+
+## ✅ **Unpacking when calling**
+
+```python
+def show(x, y, z):
+    print(x, y, z)
+
+values = (1, 2, 3)
+show(*values)  # Unpacks tuple
+
+kv = {"x": 10, "y": 20, "z": 30}
+show(**kv)     # Unpacks dict
+```
+
+---
+
+## ✅ **Why use variadic functions?**
+
+* For flexible APIs (e.g., `print`).
+* For forwarding arguments to other functions.
+
+---
+
+####  variadic keyword arguments (`**kwargs`) - how to properly document dictionary-style usage for users:
+
+---
+
+```python
+def my_function(**kids) -> None:
+    """
+    This function accepts keyword arguments representing children's names.
+    It prints the type of the 'kids' dictionary and the name of 'child1' (if provided).
+
+    Args:
+        **kids: Keyword arguments where:
+            - Key: A string like 'child1', 'child2', etc.
+            - Value: The child's name (e.g., 'Tobias').
+
+    Example:
+        >>> my_function(child1="Alice", child2="Tobias", child3="Linus")
+        <class 'dict'>
+        Alice
+    """
+    print(f"{type(kids)}")
+    print(f"{kids.get('child1', 'No child1 provided')}")
+
+my_function(child2="Tobias", child3="Linus")  # Output: <class 'dict'>, "No child1 provided"
+```
+
+---
+
+### **How to Document for Users:**
+To ensure users understand how to interact with the dictionary-style (`**kwargs`) function, include:  
+
+1. **Parameter Description**:  
+   - Clearly state that `**kids` accepts arbitrary keyword arguments.  
+   - Describe the expected format (e.g., keys like `child1`, values as names).  
+
+2. **Example Usage**:  
+   - Show how to call the function with named arguments.  
+   - Highlight handling of missing keys (e.g., `get()` with a default).  
+
+---
+
+
+
+
+
 
 
 
