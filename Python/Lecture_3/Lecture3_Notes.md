@@ -964,18 +964,584 @@ But adding to `sys.path` is a bit hacky — `importlib` is better for single-fil
 | Temporary sys.path           | `sys.path.append()`                |
 
 ---
+# Garbage Collector:
+
+---
+
+## ✅ What is the Garbage Collector?
+
+The **Garbage Collector** is Python’s automatic memory manager.
+Its job is to:
+
+* Track *objects* in memory.
+* Free up memory by deleting objects that are **no longer needed** (unreachable).
+
+**Without GC**, your program would keep using more memory until it crashes.
+
+---
+
+## ✅ How does it work?
+
+Python’s GC has **two main parts**:
+
+---
+
+### 1️⃣ Reference Counting
+
+This is the core:
+
+* Every Python object has a **reference count** (number of variables/references pointing to it).
+* When the count drops to **zero**, Python *immediately deletes* that object to free memory.
+
+Example:
+
+```python
+a = []
+b = a  # ref count = 2
+del a  # ref count = 1
+del b  # ref count = 0 → object is freed
+```
+
+Most objects are cleaned up this way — fast and simple.
+
+---
+
+### 2️⃣ Cyclic Garbage Collector
+
+But there’s a problem:
+
+* **Reference counting alone can’t handle cycles!**
+
+Example:
+
+```python
+a = []
+b = []
+a.append(b)
+b.append(a)
+```
+
+Here:
+
+* `a` points to `b` → `b` points to `a`
+* Even if you `del a` and `del b`, the reference count never drops to 0 → memory leak!
+
+So Python has a **cyclic GC** to detect and break *reference cycles*.
+
+---
+
+## ✅ Generational Garbage Collection
+
+Python’s GC uses the **Generational Hypothesis**:
+
+> *Most objects die young.*
+
+So:
+
+* Python puts objects in **3 generations**: **0, 1, 2**
+* New objects start in generation 0.
+* Surviving objects are promoted to older generations.
+* Generation 0 is collected most often, generation 2 the least often (older objects are likely to be long-lived).
+
+---
+
+## ✅ How it works in CPython
+
+In CPython (the main Python implementation):
+
+* Reference counting is always active.
+* The **gc module** manages the cycle collector.
+
+You can control it:
+
+```python
+import gc
+
+gc.collect()  # Force a collection
+gc.get_count()  # See how many objects are in each generation
+gc.disable()   # Disable cycle collector (not ref counting!)
+gc.enable()    # Re-enable it
+```
+
+---
+
+## ✅ Practical notes
+
+* For most code, you **don’t need to think about the GC** — it just works.
+* You only care if:
+
+  * You’re leaking memory in complex object graphs.
+  * You work with C extensions or large cycles.
+  * You need to tune performance (rare for normal scripts).
+
+---
+
+## ✅ Key takeaway
+
+| Part                   | What it does                                    |
+| ---------------------- | ----------------------------------------------- |
+| **Reference Counting** | Deletes objects as soon as no references exist. |
+| **Cycle Collector**    | Detects and deletes unreachable cycles.         |
+| **Generations**        | Optimizes when/how often to collect.            |
+
+---
+
+![image](https://github.com/user-attachments/assets/671e8580-fd04-4f3f-a22f-fd93b0818f68)
+
+* You make a list: `[1, 2, 3]`
+* `x` *refers* to it.
+* Then you do `x1 = x` → now `x1` *also refers* to the same list.
+* The `id()` confirms: both names point to the **same object** in memory → same ID.
+
+---
+
+### ✅ How does the GC see this?
+
+* The list `[1, 2, 3]` is an object on the **heap**.
+* It has a **reference count** of **2**:
+
+  * One from `x`
+  * One from `x1`
+
+---
+
+### 📌 What happens when your program ends?
+
+* When the script ends, **both `x` and `x1` go out of scope** → their references are destroyed.
+* The reference count of the list drops from **2 → 0**.
+* Because the count is now **zero**, Python’s **reference counting** mechanism *immediately frees* the memory for that list.
+* There’s **no cycle** here, so the **cycle detector** is not needed.
+
+---
+
+### ✅ So the GC role here:
+
+* It sees a simple reference count → no cycles.
+* When `x` and `x1` are gone, the list is collected.
+* This is *typical* — Python’s GC mostly relies on **reference counting** for simple cases like this.
+
+---
 
 
+# List:
+
+---
+
+## ✅ 1️⃣ What is a list?
+
+A **list** is a built-in **ordered**, **mutable**, **dynamic** sequence type.
+
+* **Ordered** → items keep their order.
+* **Mutable** → you can change it: add, remove, modify.
+* **Dynamic** → resizes automatically.
+* Can hold **any data type**, even mixed types.
+
+```python
+my_list = [1, 2, 3, "hello", [4, 5]]
+```
+
+---
+
+## ✅ 2️⃣ How to create a list
+
+**Literals**
+
+```python
+a = [1, 2, 3]
+```
+
+**Constructor**
+
+```python
+b = list()        # Empty list
+c = list("hello") # ['h', 'e', 'l', 'l', 'o']
+```
+
+---
+
+## ✅ 3️⃣ Accessing elements
+
+* **Indexing** (0-based):
+
+```python
+a = [10, 20, 30]
+print(a[0])  # 10
+```
+
+* **Negative indexing**:
+
+```python
+print(a[-1]) # 30 (last item)
+```
+
+* **Slicing**:
+
+```python
+print(a[1:])   # [20, 30]
+print(a[:2])   # [10, 20]
+print(a[::2])  # [10, 30] (step)
+```
+
+---
+
+## ✅ 4️⃣ Modifying lists
+
+**Change element**
+
+```python
+a[0] = 99  # [99, 20, 30]
+```
+
+**Add elements**
+
+```python
+a.append(40)     # Add to end
+a.insert(1, 15)  # Insert at index 1
+a.extend([50, 60]) # Add multiple
+```
+
+**Remove elements**
+
+```python
+a.pop()    # Remove last
+a.pop(1)   # Remove by index
+a.remove(99) # Remove by value
+del a[0]   # Remove by index
+a.clear()  # Remove all
+```
+
+---
+
+## ✅ 5️⃣ Looping over lists
+![image](https://github.com/user-attachments/assets/a3bf2f10-a5e6-4624-97ce-98af55111a35)
+
+```python
+for item in a:
+    print(item)
+
+for index, item in enumerate(a):
+    print(index, item)
+```
+
+---
+
+## ✅ 6️⃣ Membership test
+
+```python
+if 20 in a:
+    print("Yes")
+```
+
+---
+
+## ✅ 7️⃣ Built-in functions
+
+* `len(a)` → number of elements
+* `min(a)` → smallest (if comparable)
+* `max(a)` → largest
+* `sum(a)` → sum (for numbers)
+* `sorted(a)` → returns new sorted list
+* `a.sort()` → sorts in place
+
+---
+
+## ✅ 8️⃣ Nested lists
+
+Lists can contain lists:
+
+```python
+matrix = [[1, 2], [3, 4]]
+print(matrix[1][0])  # 3
+```
+
+---
+
+## ✅ 9️⃣ Copying lists
+
+**Wrong way** → just copies reference:
+
+```python
+b = a  # same object!
+```
+
+**Correct way** → make a *new* list:
+
+```python
+b = a.copy()
+b = a[:]
+import copy
+b = copy.deepcopy(a)  # for nested lists
+```
+
+---
+
+## ✅ 🔟 List comprehensions
+
+**Powerful syntax** for creating new lists:
+
+```python
+squares = [x**2 for x in range(5)]
+# [0, 1, 4, 9, 16]
+
+evens = [x for x in range(10) if x % 2 == 0]
+```
+
+---
+
+## ✅ 1️⃣1️⃣ Lists are dynamic arrays
+
+* Python lists are implemented as **dynamic arrays** (like C++ `vector`).
+* They allocate extra memory so appending is amortized **O(1)**.
+* `sys.getsizeof()` can show you memory usage.
+
+---
+
+## ✅ 1️⃣2️⃣ Lists vs tuples
+
+| Feature  | `list`        | `tuple`    |
+| -------- | ------------- | ---------- |
+| Mutable  | ✅             | ❌          |
+| Syntax   | `[1,2]`       | `(1,2)`    |
+| Use case | Changing data | Fixed data |
+
+---
+
+## ✅ 1️⃣3️⃣ Common gotchas
+
+* Be careful with **references**:
+
+  ```python
+  a = [[0]*3]*3
+  a[0][0] = 1
+  print(a)  # All rows change!
+  ```
+
+  This happens because they share the *same inner list*.
+
+  Proper way:
+
+  ```python
+  a = [[0]*3 for _ in range(3)]
+  ```
+
+---
+
+## ✅ 1️⃣4️⃣ Memory & GC
+
+* Lists live on the **heap**.
+* When they have no references, GC frees them.
+* If lists contain other objects, the GC handles that too.
+
+---
+
+## ✅ 1️⃣5️⃣ Useful methods
+
+| Method           | What it does         |
+| ---------------- | -------------------- |
+| `.append(x)`     | Add one item         |
+| `.extend([x,y])` | Add multiple         |
+| `.insert(i,x)`   | Insert at index      |
+| `.remove(x)`     | Remove by value      |
+| `.pop()`         | Remove & return last |
+| `.clear()`       | Empty the list       |
+| `.index(x)`      | Find first index     |
+| `.count(x)`      | Count occurrences    |
+| `.sort()`        | Sort in place        |
+| `.reverse()`     | Reverse in place     |
+| `.copy()`        | Shallow copy         |
+
+---
+
+## ✅ 1️⃣6️⃣ Lists are objects
+
+```python
+type(a)   # <class 'list'>
+dir(a)    # Shows all list methods
+help(list)  # Read the docs
+```
+
+---
 
 
+# **`lst = []` vs `lst.clear()`** when “clearing” a list:
+
+---
+
+## ✅ `lst = []`
+
+**What it does:**
+
+* Makes `lst` *refer to a brand new empty list*.
+* The **old list** still exists in memory **if any other variable still refers to it**.
+
+```python
+lst = [1, 2, 3]
+lst2 = lst
+
+lst = []  # Only 'lst' now points to a new empty list.
+
+print(lst)   # []
+print(lst2)  # [1, 2, 3]  <-- the old list still exists here!
+```
+
+➡️ `lst = []` **does not clear the old list in memory** — it just points `lst` to a new one.
+
+---
+
+## ✅ `lst.clear()`
+
+**What it does:**
+
+* **Modifies the existing list object** in place.
+* Removes all its elements.
+* Any other variable that refers to this list sees the change.
+
+```python
+lst = [1, 2, 3]
+lst2 = lst
+
+lst.clear()  # Clears the *same* list object in memory.
+
+print(lst)   # []
+print(lst2)  # []  <-- same list, so also empty here
+```
+
+➡️ `lst.clear()` **mutates the list itself**, so **all references** see it emptied.
+
+---
+
+## ✅ When does this matter?
+
+🔍 If you have **one reference**, both ways seem to do the same.
+
+But when you have **multiple references** — for example, passing a list into functions — `clear()` is what you want if you need to empty the *original list*.
+
+---
+
+**So:**
+
+✅ **Use `lst.clear()`** when you want to empty the *existing list*.
+✅ **Use `lst = []`** when you want to drop the reference and start fresh with a new list (and you don’t care about other references).
+
+---
+
+![image](https://github.com/user-attachments/assets/58a00388-9c5d-4ecf-a9e2-a2eff4d536f4)
 
 
+---
+#  `.copy()` :
 
+---
 
+## 🔍 The problem: same reference
 
+When you do:
 
+```python
+lst1 = [1, 2, 3]
+lst2 = lst1
+```
 
+* `lst1` and `lst2` **point to the same list object** in memory.
+* If you change one, the other sees the change.
+* So, you *don’t* have two independent lists.
 
+---
 
+## ✅ The solution: `.copy()`
+
+If you want a **new, independent list**, use:
+
+```python
+lst1 = [1, 2, 3]
+lst2 = lst1.copy()
+```
+
+* `lst2` is a **shallow copy** — a new list with the same elements.
+* Changing `lst2` does not affect `lst1`.
+
+Example:
+
+```python
+lst1 = [1, 2, 3]
+lst2 = lst1.copy()
+
+lst2.append(4)
+
+print(lst1)  # [1, 2, 3]
+print(lst2)  # [1, 2, 3, 4]
+```
+
+Perfectly independent!
+
+---
+
+## ✅ How does this relate to GC?
+
+* Using `.copy()` **makes a new list object in memory**.
+* The old list keeps its references.
+* So there’s no accidental aliasing.
+* When no references remain for a list object, the **Python garbage collector** will clean it up.
+
+So `.copy()` helps you *control when multiple names point to the same object or not* — which affects when objects can be garbage collected.
+
+---
+
+## ⚙️ Under the hood: `.copy()` vs `[:]`
+
+`.copy()` is the same as:
+
+```python
+lst2 = lst1[:]
+```
+
+Or:
+
+```python
+lst2 = list(lst1)
+```
+
+All three do a **shallow copy**.
+
+---
+
+## ⚠️ Caveat: Nested structures
+
+`.copy()` is **shallow** — it only copies the top-level list:
+
+```python
+lst1 = [[1, 2], [3, 4]]
+lst2 = lst1.copy()
+
+lst2[0].append(99)
+
+print(lst1)  # [[1, 2, 99], [3, 4]]
+print(lst2)  # [[1, 2, 99], [3, 4]]
+```
+
+See that? The *inner lists* are still shared.
+
+✅ For **deep copies**:
+
+```python
+import copy
+
+lst2 = copy.deepcopy(lst1)
+```
+
+---
+
+## ✅ Summary
+
+| Action               | Same object?    | GC effect                                    |
+| -------------------- | --------------- | -------------------------------------------- |
+| `lst2 = lst1`        | ✅ Same          | No new object                                |
+| `lst2 = lst1.copy()` | ❌ New           | New object — old one GC’ed when unreferenced |
+| `lst2 = lst1[:]`     | ❌ New           | Same as `.copy()`                            |
+| `copy.deepcopy()`    | ❌ New deep copy | Recursively copies nested                    |
+
+---
+
+`.copy()` helps you **break shared references**, keep your data isolated, and control **when objects stay alive or get garbage collected**.
 
 
