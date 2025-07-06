@@ -171,3 +171,407 @@ x[0] = 5  # Now id(x[0]) changes!
 ---
 
 
+# tuple:
+---
+
+✅ **Tuple = immutable, ordered container.**
+
+* Fixed size: can’t add/remove/change elements.
+* Fast and memory-efficient compared to lists.
+
+---
+
+💡 **Useful tricks:**
+1️⃣ **Swap easily:**
+
+```py
+a, b = b, a
+```
+
+2️⃣ **Multiple returns:**
+
+```py
+def f(): return 1, 2  # returns a tuple
+```
+
+3️⃣ **Extended unpacking:**
+
+```py
+a, *rest = (1, 2, 3, 4)  # rest = [2, 3, 4]
+```
+
+4️⃣ **Singleton tuple needs a comma:**
+
+```py
+t = (1,)  # This is a tuple
+```
+
+5️⃣ **Tuples as dict keys:**
+
+```py
+d = { (1, 2): "hi" }  # OK, tuple is hashable
+```
+
+---
+
+🧩 **Key limit:** If it holds **mutable stuff**, the *inside* can still change:
+
+```py
+t = ([1, 2], 3)
+t[0].append(99)  # Allowed!
+```
+
+---
+## **use cases** for **tuples** :
+
+---
+
+✅ **1️⃣ Multiple return values**
+Functions that naturally return **more than one thing**:
+
+```py
+def divide(a, b):
+    quotient = a // b
+    remainder = a % b
+    return quotient, remainder  # returns a tuple
+```
+
+---
+
+✅ **2️⃣ Fixed configuration or constants**
+When you want **read-only data** that must not change:
+
+```py
+DAYS = ('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun')
+```
+
+---
+
+✅ **3️⃣ Dictionary keys**
+Tuples are **hashable**, so you can use them as keys for compound lookups:
+
+```py
+cache = {}
+key = (user_id, page_number)
+cache[key] = result
+```
+
+---
+
+✅ **4️⃣ Unpacking and swapping**
+Cleaner, readable variable swaps:
+
+```py
+x, y = y, x
+```
+
+Or unpacking:
+
+```py
+a, b, c = my_tuple
+```
+
+---
+
+✅ **5️⃣ With `namedtuple` — lightweight records**
+Better than dicts when you need **lightweight struct-like objects**:
+
+```py
+from collections import namedtuple
+Point = namedtuple('Point', ['x', 'y'])
+p = Point(1, 2)
+print(p.x, p.y)
+```
+
+---
+
+✅ **6️⃣ Returning multiple values from generators**
+Example: `enumerate` returns `(index, item)`:
+
+```py
+for i, val in enumerate(['a', 'b', 'c']):
+    print(i, val)
+```
+
+---
+
+✅ **7️⃣ Immutable coordinates or points**
+Example in games, geometry, or graphics:
+
+```py
+position = (x, y)
+```
+
+---
+
+✅ **8️⃣ Pattern matching (Python 3.10+)**
+Tuples work well with `match`:
+
+```py
+match coords:
+    case (0, 0):
+        print("Origin")
+```
+
+---
+
+
+Use a tuple when the **group of values is logically fixed and ordered**, and you want **immutability** + possible **hashability**.
+
+---
+
+### **“hashable”** is a core Python concept:
+
+---
+
+✅ **Definition:**
+An object is **hashable** if:
+1️⃣ It has a **hash value** that never changes during its lifetime (`__hash__` method).
+2️⃣ It can be compared to other objects (`__eq__` method).
+3️⃣ Its hash value stays the same → so it can be used as a **key in a `dict`** or stored in a `set`.
+
+---
+
+🔑 **Example:**
+
+* `int`, `str`, `tuple` (if all its items are hashable) → **hashable**
+* `list`, `dict`, `set` → **not hashable**, because they can change → their hash would break.
+
+---
+
+📌 **Practical meaning:**
+If something is hashable, you can do:
+
+```py
+d = {}
+d[("x", "y")] = 42  # tuple is hashable → valid key
+```
+
+But:
+
+```py
+key = [1, 2, 3]
+d[key] = 42  # ❌ TypeError: unhashable type: 'list'
+```
+
+---
+
+**In short:**
+**Hashable = can be used as a dict key or in a set.**
+It stays the same so Python can find it quickly!
+
+---
+---
+![image](https://github.com/user-attachments/assets/6bd638f4-5aab-40ce-abaf-788cea7e7257)
+
+the same function can return different sequence types depending on logic.
+
+---
+---
+# set:
+
+### ✅ **What is a `set`?**
+
+* **Unordered**, **mutable** collection of **unique** elements.
+* **No duplicates allowed** → automatically removes them.
+* Like **math sets**: `{1, 2, 3}`.
+
+---
+
+### 📌 **Create a set**
+
+```py
+s = {1, 2, 3}
+s = set([1, 2, 2, 3])  # duplicates removed
+```
+
+---
+
+### ⚙️ **Basic operations**
+
+```py
+s.add(4)         # Add one item
+s.update([5, 6]) # Add multiple items
+s.remove(2)      # Remove item (KeyError if not found)
+s.discard(2)     # Remove item (NO error if not found)
+s.pop()          # Remove & return random item
+s.clear()        # Empty the set
+```
+
+---
+
+### 🔍 **Key properties**
+
+* **No order** → can’t index: `s[0]` ❌
+* Elements must be **hashable** (`int`, `str`, `tuple` OK; `list` ❌).
+
+---
+
+### 🔗 **Set operations**
+
+Python sets support **math-like operations**:
+
+```py
+a = {1, 2, 3}
+b = {3, 4, 5}
+
+a | b  # Union: {1, 2, 3, 4, 5}
+a & b  # Intersection: {3}
+a - b  # Difference: {1, 2}
+a ^ b  # Symmetric difference: {1, 2, 4, 5}
+```
+
+---
+
+### ⚡ **Common use cases**:
+
+### ✅ 1️⃣ **Remove duplicates from a list**
+
+```py
+numbers = [1, 2, 2, 3, 3, 3, 4]
+unique_numbers = set(numbers)
+print(unique_numbers)  # {1, 2, 3, 4}
+```
+
+---
+
+### ✅ 2️⃣ **Membership test**
+
+```py
+fruits = {"apple", "banana", "orange"}
+print("apple" in fruits)   # True
+print("grape" in fruits)   # False
+```
+
+✅ **Why use a set?** → `in` is **faster** than with a list for large collections.
+
+---
+
+### ✅ 3️⃣ **Find common or unique items between collections**
+
+```py
+a = {1, 2, 3, 4}
+b = {3, 4, 5, 6}
+
+print(a & b)  # Intersection → {3, 4}
+print(a | b)  # Union → {1, 2, 3, 4, 5, 6}
+print(a - b)  # Difference → {1, 2} (in a, not in b)
+print(a ^ b)  # Symmetric difference → {1, 2, 5, 6}
+```
+
+---
+# `pyautogui`
+[PyAutoGUI Documentation](https://pyautogui.readthedocs.io/en/latest/)
+`pyautogui` is a Python library used to automate mouse and keyboard actions programmatically. It’s very popular for GUI automation tasks like:
+
+* Moving the mouse
+* Clicking, dragging, and scrolling
+* Taking screenshots
+* Locating images on the screen
+* Typing with the keyboard
+
+---
+
+**Basic example:**
+Here’s a simple example of how `pyautogui` works:
+
+```python
+import pyautogui
+
+# Move the mouse to position (100, 100)
+pyautogui.moveTo(100, 100, duration=1)
+
+# Click the mouse
+pyautogui.click()
+
+# Type something
+pyautogui.write('Hello, world!', interval=0.1)
+
+# Take a screenshot
+screenshot = pyautogui.screenshot()
+screenshot.save('screenshot.png')
+```
+
+---
+
+**Install it:**
+To install `pyautogui`, run:
+
+```bash
+pip install pyautogui
+```
+
+---
+
+**Note on safety:**
+`pyautogui` takes over your mouse and keyboard, so it’s good to know:
+
+* You can abort at any time by moving your mouse to a screen corner (failsafe).
+* Or add `pyautogui.FAILSAFE = False` to disable the failsafe (not recommended).
+
+---
+
+
+## **BeautifulSoup**  a popular Python library for **web scraping** and **HTML/XML parsing**.
+
+---
+
+## ✅ **What is BeautifulSoup?**
+
+* It’s a Python package for parsing HTML and XML files.
+* Lets you **extract data from web pages** (like text, links, tables).
+* Often used with `requests` (or `urllib`) to download the HTML first.
+
+---
+
+## 🗂️ **When to use it**
+
+* Scraping articles, prices, or product info from websites.
+* Parsing local HTML files.
+* Cleaning or transforming HTML data.
+
+---
+
+## 📦 **How to install**
+
+```bash
+pip install beautifulsoup4
+```
+
+And you’ll usually use it with `requests`:
+
+```bash
+pip install requests
+```
+
+---
+
+## 📌 **Official Docs**
+
+[BeautifulSoup Documentation](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
+
+---
+# selenium:
+
+**Selenium** is a Python library (and toolkit) for **automating web browsers**.
+You use it to make your Python script **open a real browser**, do clicks, typing, form filling — like a human user.
+
+---
+## ⚙️ **Real uses**
+
+✅ Automate logins (enter username/password)
+✅ Test a website’s forms/buttons
+✅ Scrape data that loads dynamically (JavaScript)
+✅ Take screenshots of pages
+✅ Download files
+
+---
+
+##  **Docs**
+
+ [Official Selenium Python Docs](https://selenium-python.readthedocs.io/)
+
+---
+
+
+
