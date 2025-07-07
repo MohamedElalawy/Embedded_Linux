@@ -13,30 +13,6 @@
 
 ---
 
-## 📚 Topics To Be Learned
-
-| 🧪 Skill / Topic                       | 🔄 Progress |
-|---------------------------------------|-------------|
-| Python                                | 0%          |
-| C++                                   | 0%          |
-| Linux                                 | 0%          |
-| Bash                                  | 0%          |
-| Raspberry Pi                          | 0%          |
-| Yocto                                 | 0%          |
-| Prompt Engineering                    | 0%          |
-| AI using MCP                          | 0%          |
-| AI Coding (replit-bolt-cursor)        | 0%          |
-| C++ Design Patterns                   | 0%          |
-| Device Drivers                        | 0%          |
-| Rust Level 1                          | 0%          |
-| Rust Level 2                          | 0%          |
-| Docker                                | 0%          |
-| Unit Testing                          | 0%          |
-| Troubleshooting Techniques            | 0%          |
-| Monitoring Project                    | 0%          |
-
----
-
 ## 🐍 Python Course
 
 | Session | Duration | Topics                                                              |
