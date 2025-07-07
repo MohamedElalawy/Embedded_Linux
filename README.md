@@ -6,10 +6,6 @@
 
 <h3 align="center">🚀 Learning in Progress</h3>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Progress-0%25-red?style=for-the-badge&logo=progress" />
-</p>
-
 
 ---
 
