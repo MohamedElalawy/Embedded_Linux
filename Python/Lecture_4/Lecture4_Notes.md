@@ -904,6 +904,31 @@ In Python, the way arguments are passed to functions is often a source of confus
 ---
 
 
+```python
+lst = [1, 2, 3]
+print(id(lst))
+
+del lst
+
+lst = [1, 2, 3]
+print(id(lst))
+```
+---
+
+* The two `[1, 2, 3]` lists are **different objects**.
+* But **CPython** (the common Python implementation) may reuse the same memory slot **immediately**, so `id()` can be the same.
+
+---
+
+**Why does this happen?**
+
+* Python uses an **efficient memory allocator** for small objects.
+* When you free a small object, its slot may be reused for a new object of the same type/size.
+* So, in small tests like this, the `id` often appears the same.
+
+---
+
+
 
 
 
