@@ -21,8 +21,7 @@
 
 
 ✨ **Check out my projects on this Module**  
-[🔗 LinkedIn Job Searching Automation with PyAutoGUI 🚀]
-(https://github.com/MohamedElalawy/LinkedIn-Job-Scraper-To-WhatsApp)
+[🔗 LinkedIn Job Searching Automation with PyAutoGUI 🚀](https://github.com/MohamedElalawy/LinkedIn-Job-Scraper-To-WhatsApp)
 
 ---
 
