@@ -28,7 +28,7 @@
 
 [🔗 System Monitor with psutil](https://github.com/MohamedElalawy/Embedded_Linux/blob/main/Python/Lecture_2/monitor.py)
 
-[🔗 Open Directories with Python and Nautilus](https://github.com/MohamedElalawy/Embedded_Linux/blob/main/Python/Lecture_2/osModuleTest.py)
+[🔗 Open Directories with Nautilus](https://github.com/MohamedElalawy/Embedded_Linux/blob/main/Python/Lecture_2/osModuleTest.py)
 
 ---
 
