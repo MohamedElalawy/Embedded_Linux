@@ -22,8 +22,11 @@
 
 ✨ **Check out my projects on this Module**  
 [🔗 LinkedIn Job Searching Automation with PyAutoGUI](https://github.com/MohamedElalawy/LinkedIn-Job-Scraper-To-WhatsApp)
+
 [🔗 Arabic Text to Speech with gTTS](https://github.com/MohamedElalawy/Embedded_Linux/blob/main/Python/Lecture_2/Arabic_text_to_speach.py)
+
 [🔗 System Monitor with psutil](https://github.com/MohamedElalawy/Embedded_Linux/blob/main/Python/Lecture_2/monitor.py)
+
 [🔗 Open Directories with Python and Nautilus](https://github.com/MohamedElalawy/Embedded_Linux/blob/main/Python/Lecture_2/osModuleTest.py)
 
 ---
