@@ -776,4 +776,134 @@ print(operation("add", 5, 3))  # 8
 
 ---
 
+### `get()` is safer** than direct access when using dictionaries:
+
+---
+
+### 📌 **1️⃣ Direct access can raise an error**
+
+When you access a key directly, like this:
+
+```python
+my_dict = {"name": "Ali"}
+print(my_dict["age"])  # ⚡ KeyError!
+```
+
+If the key `"age"` does not exist, Python throws a **KeyError** and your program crashes **unless you handle it**.
+
+---
+
+### 📌 **2️⃣ `get()` avoids the KeyError**
+
+When you use `.get()`, Python will **not throw an error** if the key is missing:
+
+```python
+print(my_dict.get("age"))  # None
+```
+
+* If the key does not exist, it simply returns `None` (or a default value if you provide one).
+
+---
+
+### ✅ **3️⃣ You can provide a default**
+
+`get()` lets you define a fallback value:
+
+```python
+print(my_dict.get("age", 0))  # 0
+```
+
+So instead of `KeyError`, you get `0` — or whatever default you choose.
+
+---
+
+### 📌 **Why is this safer?**
+
+* Prevents **unexpected crashes** due to missing keys.
+* Makes code **cleaner** than using `try/except` all the time.
+* Makes your code more **robust**, especially when handling **unpredictable data** like user input, API responses, or files.
+
+---
+# passing in python:
+
+In Python, the way arguments are passed to functions is often a source of confusion. Python uses a mechanism called **"pass by object reference"** or **"call by sharing"**, which is different from both traditional **pass by value** and **pass by reference**.
+
+### Key Concepts:
+1. **Pass by Object Reference**:
+   - When you pass a variable to a function, Python passes a **reference to the object** (not a copy of the object).
+   - However, whether the function can modify the original object depends on whether the object is **mutable** or **immutable**.
+
+2. **Mutable vs Immutable Objects**:
+   - **Immutable objects** (e.g., `int`, `float`, `str`, `tuple`) cannot be modified after creation.
+   - **Mutable objects** (e.g., `list`, `dict`, `set`) can be modified.
+
+### Behavior in Python:
+- **For Immutable Objects (e.g., `int`, `str`, `tuple`)**:
+  - The function receives a reference to the object, but since the object cannot be changed, modifying it inside the function creates a **new object**.
+  - The original object outside the function remains unchanged.
+
+  **Example:**
+  ```python
+  def modify_num(x):
+      x = 10  # Creates a new integer object, does not affect the original
+      print("Inside function:", x)
+
+  num = 5
+  modify_num(num)
+  print("Outside function:", num)
+  ```
+  **Output:**
+  ```
+  Inside function: 10
+  Outside function: 5
+  ```
+
+- **For Mutable Objects (e.g., `list`, `dict`)**:
+  - The function receives a reference to the original object, so modifications inside the function affect the original object.
+  - However, reassigning the variable inside the function does not affect the original reference.
+
+  **Example (Modifying a List):**
+  ```python
+  def modify_list(lst):
+      lst.append(4)  # Modifies the original list
+      print("Inside function:", lst)
+
+  my_list = [1, 2, 3]
+  modify_list(my_list)
+  print("Outside function:", my_list)
+  ```
+  **Output:**
+  ```
+  Inside function: [1, 2, 3, 4]
+  Outside function: [1, 2, 3, 4]
+  ```
+
+  **Example (Reassigning a List):**
+  ```python
+  def reassign_list(lst):
+      lst = [10, 20, 30]  # Creates a new list, does not affect the original
+      print("Inside function:", lst)
+
+  my_list = [1, 2, 3]
+  reassign_list(my_list)
+  print("Outside function:", my_list)
+  ```
+  **Output:**
+  ```
+  Inside function: [10, 20, 30]
+  Outside function: [1, 2, 3]
+  ```
+
+
+| **Scenario**               | **Effect**                                                                 |
+|----------------------------|---------------------------------------------------------------------------|
+| Passing an **immutable** object | Function cannot modify the original object (a new object is created). |
+| Passing a **mutable** object | Function can modify the original object if it mutates it (e.g., `append`). |
+| Reassigning a mutable object inside a function | Does not affect the original object (the reference changes locally). |
+
+---
+
+
+
+
 
