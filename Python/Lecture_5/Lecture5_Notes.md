@@ -819,5 +819,53 @@ add_five = Adder(5)
 
 print(add_five(10))  # Output: 15
 ```
+
+---
+
+# Static Methods 
+
+A **static method** in Python is:
+- A method that belongs to a class but **does not access or modify class or instance data**.
+- It behaves just like a regular function but is **grouped logically inside the class’s namespace**.
+
+---
+
+## When to Use Static Methods
+
+Use a static method when:
+- You want to put a utility function **inside a class** for **logical grouping**.
+- The function **doesn’t need access** to `self` (the instance) or `cls` (the class).
+
+---
+
+## How to Define a Static Method
+
+You use the `@staticmethod` decorator.
+
+**Example:**
+
+```python
+class MathUtils:
+    @staticmethod
+    def add(x, y):
+        return x + y
+
+# Call the static method
+result = MathUtils.add(5, 7)
+print(result)  # Output: 12
+
+```
+---
+
+How Static Methods Work
+
+No self parameter.
+
+No cls parameter.
+
+They do not modify class state or instance state.
+
+
+
 ---
 
