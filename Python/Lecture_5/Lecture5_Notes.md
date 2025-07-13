@@ -377,6 +377,220 @@ print(repr(b))  # uses __repr__: Book("1984", "George Orwell")
 
 
 
+#  Inheritance
+
+---
+
+##  What is Inheritance?
+
+Inheritance is a fundamental concept in object-oriented programming (OOP) that allows you to **create a new class from an existing class**.
+
+- The **existing class** is called the **Base class** (or **Parent class**, **Super class**).
+- The **new class** is called the **Derived class** (or **Child class**, **Subclass**).
+
+The derived class **inherits** attributes and methods from the base class and can also have its own or override the inherited ones.
+
+---
+
+##  Why Use Inheritance?
+
+- **Code Reuse:** Avoid duplicating common code.
+- **Extensibility:** Extend functionality of existing classes.
+- **Hierarchy:** Represent real-world relationships.
+
+Example: `Vehicle` → `Car`, `Truck`, `Bike`.
+
+---
+
+##  Basic Syntax
+
+```python
+class BaseClass:
+    # base class members
+    pass
+
+class DerivedClass(BaseClass):
+    # derived class members
+    pass
+
+
+---
+
+## Simple Example
+
+class Animal:
+    def speak(self):
+        print("Animal speaks")
+
+class Dog(Animal):
+    def bark(self):
+        print("Woof!")
+
+d = Dog()
+d.speak()  # Inherited method
+d.bark()   # Own method
+
+
+---
+
+## Overriding Methods
+
+A derived class can override methods of the base class.
+
+class Animal:
+    def speak(self):
+        print("Animal speaks")
+
+class Dog(Animal):
+    def speak(self):  # Overrides Animal's speak()
+        print("Dog barks")
+
+a = Animal()
+a.speak()  # Animal speaks
+
+d = Dog()
+d.speak()  # Dog barks
+
+
+---
+
+## Using super()
+
+super() is used to call methods from the base class inside the derived class.
+
+class Animal:
+    def speak(self):
+        print("Animal speaks")
+
+class Dog(Animal):
+    def speak(self):
+        super().speak()  # Call parent method
+        print("Dog barks")
+
+d = Dog()
+d.speak()
+# Output:
+# Animal speaks
+# Dog barks
+
+
+---
+
+## __init__ and Inheritance
+
+When you override __init__ in the derived class, you often use super() to initialize the base class.
+
+class Person:
+    def __init__(self, name):
+        self.name = name
+
+class Student(Person):
+    def __init__(self, name, major):
+        super().__init__(name)
+        self.major = major
+
+s = Student("Alice", "Physics")
+print(s.name)   # Alice
+print(s.major)  # Physics
+
+
+---
+
+## Types of Inheritance in Python
+
+1️⃣ Single Inheritance
+
+One child inherits from one parent.
+
+class A:
+    pass
+
+class B(A):
+    pass
+
+
+---
+
+## Multiple Inheritance
+
+A class inherits from multiple base classes.
+
+class A:
+    pass
+
+class B:
+    pass
+
+class C(A, B):
+    pass
+
+Python resolves conflicts using MRO (Method Resolution Order) — determined by the C3 Linearization algorithm.
+
+
+---
+
+## Multilevel Inheritance
+
+A class is derived from a derived class.
+
+class A:
+    pass
+
+class B(A):
+    pass
+
+class C(B):
+    pass
+
+
+---
+
+## Hierarchical Inheritance
+
+Multiple classes inherit from the same base class.
+
+class A:
+    pass
+
+class B(A):
+    pass
+
+class C(A):
+    pass
+
+
+---
+
+## Hybrid Inheritance
+
+Combination of multiple types of inheritance.
+
+
+---
+
+## Checking Inheritance
+
+issubclass(Dog, Animal)  # True
+isinstance(d, Dog)       # True
+isinstance(d, Animal)    # True
+
+
+---
+
+## Method Resolution Order (MRO)
+
+Python uses MRO to decide which parent to use first when there’s multiple inheritance.
+
+You can check it with:
+
+print(Dog.mro())
+# Or
+print(Dog.__mro__)
+
+
+---
+
+
 
 
 
