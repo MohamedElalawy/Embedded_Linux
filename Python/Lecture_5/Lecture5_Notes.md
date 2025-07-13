@@ -671,3 +671,121 @@ However, Python does not mangle names with a single underscore, so it’s purely
 
 
 ---
+
+
+📌 Operator Overloading in Python
+
+✅ What is Operator Overloading?
+
+Operator overloading lets you define how operators like +, -, *, == behave for your custom objects.
+
+Example:
+
+3 + 5 is really int.__add__(3, 5)
+
+a + b for your class will call a.__add__(b) if you define it
+
+
+
+---
+
+✅ Why Use Operator Overloading?
+
+To make custom classes behave naturally, for example:
+```python
+
+Vector(1, 2) + Vector(3, 4)  # → Vector(4, 6)
+MyClass1 == MyClass2         # → custom comparison logic
+```
+
+---
+
+✅ How to Overload Operators?
+
+You override special methods (__add__, __eq__, __lt__ etc.).
+
+Example: Overload + for a Vector class
+```python
+class Vector:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __add__(self, other):
+        return Vector(self.x + other.x, self.y + other.y)
+
+    def __str__(self):
+        return f"Vector({self.x}, {self.y})"
+
+v1 = Vector(2, 4)
+v2 = Vector(5, -2)
+v3 = v1 + v2  # calls v1.__add__(v2)
+
+print(v3)  # Output: Vector(7, 2)
+
+```
+---
+
+✅ Common Operator Overloading Methods
+
+Operator	Special Method
+
++	__add__(self, other)
+-	__sub__(self, other)
+*	__mul__(self, other)
+/	__truediv__(self, other)
+//	__floordiv__(self, other)
+%	__mod__(self, other)
+**	__pow__(self, other)
+==	__eq__(self, other)
+!=	__ne__(self, other)
+<	__lt__(self, other)
+<=	__le__(self, other)
+>	__gt__(self, other)
+>=	__ge__(self, other)
+str()	__str__(self)
+repr()	__repr__(self)
+
+
+
+---
+
+✅ Reverse and In-place Operators
+
+__radd__(self, other) → Reverse add. If a + b calls a.__add__(b) and it returns NotImplemented, Python calls b.__radd__(a).
+
+__iadd__(self, other) → In-place add (+=). If not defined, Python falls back to __add__.
+
+
+
+---
+
+✅ Notes
+
+Usually, __add__ should return a new instance, not modify self.
+
+For immutable types, never change the original object.
+
+You can overload comparison, arithmetic, and other operators to make your class intuitive.
+
+
+
+---
+
+✅ Example: Equality Overloading
+```python
+class Book:
+    def __init__(self, title, pages):
+        self.title = title
+        self.pages = pages
+
+    def __eq__(self, other):
+        return self.title == other.title and self.pages == other.pages
+
+b1 = Book("Python", 300)
+b2 = Book("Python", 300)
+print(b1 == b2)  # True
+
+```
+---
+
