@@ -498,7 +498,11 @@ print(s.major)  # Physics
 
 ## Types of Inheritance in Python
 
-1️⃣ Single Inheritance
+
+<img width="508" height="603" alt="17523816501214696195718096137765" src="https://github.com/user-attachments/assets/96ec0f6b-4732-4164-8363-eb43cdcc5ad9" />
+
+
+## Single Inheritance
 
 One child inherits from one parent.
 
@@ -589,11 +593,6 @@ print(Dog.__mro__)
 
 
 ---
-
-
-
-
-
 
 
 
