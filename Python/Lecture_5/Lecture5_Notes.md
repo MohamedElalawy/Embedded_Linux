@@ -865,6 +865,81 @@ No cls parameter.
 
 They do not modify class state or instance state.
 
+---
+
+# import
+
+When you import a module in Python, you don’t create an “instance” like you do when you instantiate a class.
+Instead, you are loading a module object into memory (if it’s not already loaded), and you get a reference to that module.
+
+
+---
+
+✅ What really happens when you import?
+
+1. Python finds the module file (.py) using the sys.path.
+
+
+2. If the module has not been loaded yet, Python:
+
+Compiles it to bytecode (if needed).
+
+Executes its code once to create a module object.
+
+Caches that module object in sys.modules.
+
+
+
+3. If you import the same module again:
+
+Python does not run the code again.
+
+It just gives you a reference to the same module object.
+
+---
+
+✅ So is a module an instance?
+
+Technically, a module is an object of type module.
+```python
+import math
+print(type(math))  # <class 'module'>
+```
+But it’s not an instance of a user-defined class — it’s a singleton object created by the Python runtime.
+
+
+
+---
+
+✅ Example
+```python
+# file: mymodule.py
+print("Hello, I am loaded!")
+
+x = 5
+
+# file: main.py
+import mymodule  # Prints: Hello, I am loaded!
+import mymodule  # Does not print again — already loaded.
+```
+
+---
+
+✅ Where is the module stored?
+
+The module object is cached in sys.modules:
+
+import sys
+import math
+
+print(sys.modules['math'])  # <module 'math' (built-in)>
+
+---
+
+✅ Is a module like a singleton?
+
+Yes — you can think of a module as a singleton object.
+It has attributes (variables, functions, classes) that you can access.
 
 
 ---
