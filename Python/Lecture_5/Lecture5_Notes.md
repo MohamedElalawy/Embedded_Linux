@@ -319,6 +319,60 @@ class Example:
 ---
 
 
+# `str` vs `repr` 
+
+---
+
+##  Purpose
+
+- **`str`** → *User-friendly* representation  
+- **`repr`** → *Developer-friendly* (unambiguous) representation
+
+- `str()` is meant to produce a **readable** string version of the object — for end users.
+- `repr()` is meant to produce an **unambiguous** representation that could, ideally, be used to recreate the object — for developers and debugging.
+
+---
+
+##  How They Work
+
+Python uses:
+- `__str__` → defines what `str()` returns
+- `__repr__` → defines what `repr()` returns
+
+If `__str__` is **not** defined, `str()` falls back to `__repr__`.
+
+---
+
+##  When Are They Used Automatically?
+
+- `print(obj)` → uses `str(obj)` → calls `__str__()`
+- Typing `obj` in the Python REPL → uses `repr(obj)` → calls `__repr__()`
+
+---
+
+##  Example
+
+```python
+class Book:
+    def __init__(self, title, author):
+        self.title = title
+        self.author = author
+
+    def __str__(self):
+        return f'"{self.title}" by {self.author}'
+
+    def __repr__(self):
+        return f'Book("{self.title}", "{self.author}")'
+
+b = Book("1984", "George Orwell")
+
+print(b)        # uses __str__: "1984" by George Orwell
+print(str(b))   # same: "1984" by George Orwell
+print(repr(b))  # uses __repr__: Book("1984", "George Orwell")
+
+```
+
+---
 
 
 
