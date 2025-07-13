@@ -600,16 +600,74 @@ print(Dog.__mro__)
 
 ```
 ---
+# 📌 Private Members in Python
+
+---
+
+## 1️⃣ What are Private Members?
+
+In Python, **private members** are class attributes (variables or methods) that **should not be accessed directly** from outside the class.
+
+Unlike languages like C++ or Java, Python doesn’t have true private enforcement. Instead, it uses **name mangling** as a convention to discourage direct access.
+
+---
+
+## 2️⃣ How Do You Define Them?
+
+You define private members by prefixing their names with **two underscores (`__`)**:
+
+```python
+class MyClass:
+    def __init__(self):
+        self.__private_var = 42  # Private variable
+        self._protected_var = 99 # Protected by convention (single underscore)
+
+    def __private_method(self):
+        print("This is a private method.")
+
+    def public_method(self):
+        print("Accessing private method:")
+        self.__private_method()
+
+```
+---
+
+3️⃣ How Does Name Mangling Work?
+
+When you define __private_var, Python internally renames it to _ClassName__private_var.
+
+So, you can still access it from outside (but you shouldn’t):
+```python
+obj = MyClass()
+
+# ❌ Not recommended:
+print(obj._MyClass__private_var)  # Accessing private variable directly
+
+# ✅ Recommended:
+obj.public_method()  # Access via public method
+```
+
+---
+
+4️⃣ Why Use Private Members?
+
+✅ Encapsulation: Hide internal details.
+
+✅ Control Access: Force interaction through public methods (e.g., getters/setters).
+
+✅ Prevent Accidental Modification: Not foolproof, but signals “Don’t touch this!” to other developers.
 
 
 
+---
+
+5️⃣ Note on Single Underscore _
+
+A single underscore prefix (e.g., _var) means “protected” by convention.
+
+It signals: “This is internal, handle with care!”
+
+However, Python does not mangle names with a single underscore, so it’s purely a developer agreement.
 
 
-
-
-
-
-
-
-
-
+---
