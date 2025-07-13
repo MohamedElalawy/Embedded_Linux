@@ -413,11 +413,12 @@ class DerivedClass(BaseClass):
     # derived class members
     pass
 
-
+```
 ---
 
 ## Simple Example
 
+```python
 class Animal:
     def speak(self):
         print("Animal speaks")
@@ -430,13 +431,13 @@ d = Dog()
 d.speak()  # Inherited method
 d.bark()   # Own method
 
-
+```
 ---
 
 ## Overriding Methods
 
 A derived class can override methods of the base class.
-
+```python
 class Animal:
     def speak(self):
         print("Animal speaks")
@@ -450,7 +451,7 @@ a.speak()  # Animal speaks
 
 d = Dog()
 d.speak()  # Dog barks
-
+```
 
 ---
 
@@ -458,6 +459,7 @@ d.speak()  # Dog barks
 
 super() is used to call methods from the base class inside the derived class.
 
+```python
 class Animal:
     def speak(self):
         print("Animal speaks")
@@ -472,7 +474,7 @@ d.speak()
 # Output:
 # Animal speaks
 # Dog barks
-
+```
 
 ---
 
@@ -480,6 +482,7 @@ d.speak()
 
 When you override __init__ in the derived class, you often use super() to initialize the base class.
 
+```python
 class Person:
     def __init__(self, name):
         self.name = name
@@ -492,7 +495,7 @@ class Student(Person):
 s = Student("Alice", "Physics")
 print(s.name)   # Alice
 print(s.major)  # Physics
-
+```
 
 ---
 
@@ -505,13 +508,13 @@ print(s.major)  # Physics
 ## Single Inheritance
 
 One child inherits from one parent.
-
+```python
 class A:
     pass
 
 class B(A):
     pass
-
+```
 
 ---
 
@@ -519,6 +522,7 @@ class B(A):
 
 A class inherits from multiple base classes.
 
+```python
 class A:
     pass
 
@@ -527,6 +531,7 @@ class B:
 
 class C(A, B):
     pass
+```
 
 Python resolves conflicts using MRO (Method Resolution Order) — determined by the C3 Linearization algorithm.
 
@@ -537,6 +542,7 @@ Python resolves conflicts using MRO (Method Resolution Order) — determined by 
 
 A class is derived from a derived class.
 
+```python
 class A:
     pass
 
@@ -545,7 +551,7 @@ class B(A):
 
 class C(B):
     pass
-
+```
 
 ---
 
@@ -553,6 +559,7 @@ class C(B):
 
 Multiple classes inherit from the same base class.
 
+```python
 class A:
     pass
 
@@ -562,7 +569,7 @@ class B(A):
 class C(A):
     pass
 
-
+```
 ---
 
 ## Hybrid Inheritance
@@ -573,11 +580,11 @@ Combination of multiple types of inheritance.
 ---
 
 ## Checking Inheritance
-
+```python
 issubclass(Dog, Animal)  # True
 isinstance(d, Dog)       # True
 isinstance(d, Animal)    # True
-
+```
 
 ---
 
@@ -586,12 +593,12 @@ isinstance(d, Animal)    # True
 Python uses MRO to decide which parent to use first when there’s multiple inheritance.
 
 You can check it with:
-
+```python
 print(Dog.mro())
 # Or
 print(Dog.__mro__)
 
-
+```
 ---
 
 
