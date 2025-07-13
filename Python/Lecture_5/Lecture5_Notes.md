@@ -789,3 +789,35 @@ print(b1 == b2)  # True
 ```
 ---
 
+
+# Functors 
+
+In general programming, a **functor** is:
+
+> An object that can be called like a function.
+
+In **Python**, this means:
+- A functor is any object that implements the special method `__call__()`.
+- This allows you to use `obj()` syntax, just like calling a regular function.
+
+---
+
+## How to Create a Functor in Python
+
+You define a class with a `__call__` method:
+
+```python
+class Adder:
+    def __init__(self, value):
+        self.value = value
+
+    def __call__(self, x):
+        return self.value + x
+
+# Create a functor instance
+add_five = Adder(5)
+
+print(add_five(10))  # Output: 15
+```
+---
+
