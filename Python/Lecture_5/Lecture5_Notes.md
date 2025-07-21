@@ -943,4 +943,80 @@ It has attributes (variables, functions, classes) that you can access.
 
 
 ---
+#  `__all__` :
+
+---
+
+### ✅ **What is `__all__`?**
+
+`__all__` is a **special variable** you define in a Python module (`.py` file) to **control what gets imported** when someone does:
+
+```python
+from your_module import *
+```
+
+By default, `from module import *` imports **all names that don’t start with an underscore `_`**. But if you **define `__all__`**, you override that behavior.
+
+---
+
+### ✅ **How does it look?**
+
+`__all__` is a list of strings — each string is the name of something you want to be *exported* by `import *`.
+
+Example:
+
+```python
+# mymodule.py
+
+__all__ = ['foo', 'Bar']
+
+def foo():
+    print("I am foo")
+
+def _hidden():
+    print("I am hidden")
+
+class Bar:
+    pass
+
+class _Secret:
+    pass
+```
+
+If you do:
+
+```python
+from mymodule import *
+
+foo()    # ✅ works
+Bar()    # ✅ works
+_hidden() # ❌ NameError: _hidden is not defined
+_Secret() # ❌ NameError: _Secret is not defined
+```
+
+So `__all__` explicitly says: *only these names get exported.*
+
+---
+
+### ✅ **Why use `__all__`?**
+
+* To **hide internal helpers** and implementation details.
+* To make your API **cleaner and predictable**.
+* To avoid namespace pollution when users do `from module import *`.
+
+---
+
+### ⚠️ **Important:**
+
+`__all__` only affects `from module import *`.
+It does **not** prevent:
+
+```python
+import mymodule
+mymodule._hidden()  # ✅ works
+```
+
+The names are still there — `__all__` just controls what `*` picks up.
+
+---
 
