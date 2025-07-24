@@ -4,7 +4,7 @@ A **file** is a resource for storing data — text, images, binary data, logs, e
 
 ---
 
-## 📂 **2. Basic file operations**
+## 📂 ** Basic file operations**
 
 Python’s built-in `open()` function is the key:
 
@@ -109,5 +109,51 @@ f.close()
 
 Always use `with open(...)` — it’s safer and cleaner!
 
+---
+
+<img width="987" height="496" alt="image" src="https://github.com/user-attachments/assets/aefea8c6-cc68-4fe6-b5bb-54bfc9ef9558" />
+
+---
+
+<img width="1716" height="942" alt="image" src="https://github.com/user-attachments/assets/30930ceb-e962-4c81-8025-23c9e934fe5b" />
+
+---
+#  `try`, `except`, `else`, and `finally`
+
+##  How it works
+
+* **`try`**: You put code here that might raise an exception.
+* **`except`**: If an exception happens in the `try` block, Python jumps here.
+* **`else`**: If no exception happens, Python runs the `else` block (optional).
+* **`finally`**: Runs **no matter what**, whether there was an exception or not (often used for cleanup).
+
+---
+
+##  Example
+
+Here’s a **complete example**:
+
+```python
+try:
+    print("Trying to open file...")
+    f = open("nonexistent.txt", "r")
+except FileNotFoundError:
+    print("File not found! Handling exception.")
+else:
+    print("No exception occurred! Reading file...")
+    content = f.read()
+    print(content)
+    f.close()
+finally:
+    print("This runs no matter what.")
+```
+
+**Output:**
+
+```
+Trying to open file...
+File not found! Handling exception.
+This runs no matter what.
+```
 ---
 
