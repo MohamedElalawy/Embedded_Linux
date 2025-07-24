@@ -30,6 +30,9 @@
 
 [🔗 Open Directories with Nautilus](https://github.com/MohamedElalawy/Embedded_Linux/blob/main/Python/Lecture_2/osModuleTest.py)
 
+[🔗 interactive_avr_gpio_init_generator.py](https://github.com/MohamedElalawy/Embedded_Linux/blob/main/Python/Lecture_6/avr_gpio_init_generator.py
+)
+
 ---
 
 ## 💻 C++ Course
