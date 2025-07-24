@@ -33,6 +33,9 @@
 [🔗 interactive_avr_gpio_init_generator.py](https://github.com/MohamedElalawy/Embedded_Linux/blob/main/Python/Lecture_6/avr_gpio_init_generator.py
 )
 
+[🔗 Face Detector OpenCV](https://github.com/MohamedElalawy/Embedded_Linux/blob/main/Python/Lecture_6/FaceDetectorOpenCV.py
+)
+
 ---
 
 ## 💻 C++ Course
