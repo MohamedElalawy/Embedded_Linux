@@ -125,7 +125,62 @@ For **I/O-bound** tasks (networking, file I/O), `threading` is fine — because 
 
 ---
 
+# `socket`
 
+##  **What is a *socket* in general?**
+
+A **socket** is an **endpoint for communication** between two machines or processes — like a virtual plug.
+
+* At the OS level, it’s an abstraction for a network connection.
+* A socket can be **TCP** (connection-oriented) or **UDP** (connectionless).
+* Example: a web server listens on a TCP socket at port 80.
+
+---
+
+##  **What is `socket` in Python?**
+
+In Python, `socket` (lowercase) is the name of the **standard library module**:
+
+```py
+import socket
+```
+
+Inside the `socket` module you have:
+
+* The **`socket()`** function/class → to create a new socket object.
+* Constants (e.g., `socket.AF_INET`, `socket.SOCK_STREAM`).
+* Exceptions like `socket.error`.
+
+So when people say **`socket`** in Python code, they usually mean:
+
+1. The **module** → `socket`
+2. A **socket object** → created by calling `socket.socket()`.
+
+---
+
+##  **Example: using the `socket` module**
+
+Here’s a tiny TCP client example:
+
+```python
+import socket
+
+# Create a socket object (AF_INET = IPv4, SOCK_STREAM = TCP)
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Connect to a server (e.g., google.com on port 80)
+s.connect(('www.google.com', 80))
+
+# Send HTTP request
+s.sendall(b"GET / HTTP/1.1\r\nHost: www.google.com\r\n\r\n")
+
+# Receive response
+response = s.recv(4096)
+print(response)
+
+s.close()
+```
+---
 
 
 
