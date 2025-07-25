@@ -182,5 +182,109 @@ s.close()
 ```
 ---
 
+<img width="800" height="618" alt="image" src="https://github.com/user-attachments/assets/ad99c804-6ce3-41c5-877f-9544e06ca061" />
+
+---
+# how the Internet works
+
+---
+
+## 🌐 **What is the Internet?**
+
+At its core, the Internet is a massive **network of networks**.
+Millions of devices (computers, phones, servers) are connected together so they can **exchange data**.
+
+It’s like:
+
+* **Cables & Wi-Fi:** Physical connections.
+* **Routers & Switches:** Direct traffic.
+* **Protocols:** Define how devices talk.
+
+---
+
+## ✅ **How does it work?**
+
+Let’s walk through a simple example:
+**“You open your web browser and visit `www.example.com`.”**
+
+---
+
+### 1️⃣ **Your device gets an IP address**
+
+* Your computer/phone joins a network (like your home Wi-Fi).
+* Your router (or your ISP) gives it an **IP address** (like a street address).
+
+---
+
+### 2️⃣ **You type a website → DNS**
+
+* You type `www.example.com`.
+* Your device doesn’t know its IP address — it needs to find it.
+* So it asks a **DNS server** (Domain Name System):
+  “What is the IP of `www.example.com`?”
+* The DNS server replies: `93.184.216.34` (for example).
+
+---
+
+### 3️⃣ **Your device builds a packet**
+
+* Your browser creates an **HTTP request**:
+  *“GET /”* (give me the homepage).
+* This data is wrapped in:
+
+  * **Application Layer:** HTTP
+  * **Transport Layer:** TCP segments (reliable delivery)
+  * **Network Layer:** IP packets (adds source & destination IP)
+  * **Data Link Layer:** Ethernet frames (adds MAC addresses)
+  * **Physical Layer:** Transmits as electrical signals or radio waves.
+
+---
+
+### 4️⃣ **Your request travels across networks**
+
+* Your request leaves your device → goes to your **router**.
+* The router checks the IP destination → sends it out to your ISP.
+* The ISP routes it through **many routers**, until it reaches the web server that owns `www.example.com`.
+
+---
+
+### 5️⃣ **The server responds**
+
+* The server receives your packet → sees the HTTP request → prepares a response.
+* The response (e.g., an HTML file) is broken into packets and sent back to your IP.
+* The packets travel back through routers → your ISP → your router → your device.
+
+---
+
+### 6️⃣ **Your browser displays the page**
+
+* Your computer reassembles the TCP segments into a full web page.
+* The browser renders the HTML, images, CSS, JavaScript — and you see the website.
+
+---
+
+## ✅ **Key pieces making this possible**
+
+**💡 IP addresses** — Unique ID for every device.
+
+**💡 Routers** — Direct traffic based on IP addresses.
+
+**💡 DNS** — Like a phonebook for domain names.
+
+**💡 Protocols** — Rules for how data moves (TCP, IP, HTTP).
+
+**💡 Physical layer** — Cables, fiber optics, Wi-Fi, 4G/5G, etc.
+
+---
+
+## ⚙️ **The OSI Layers in action**
+
+* Your request starts at **Application Layer** (HTTP).
+* Goes down through **Presentation**, **Session**, **Transport (TCP)**, **Network (IP)**, **Data Link (Ethernet)**, **Physical (cables)**.
+* Then up the layers again at the server.
+* Same on the way back.
+
+---
+
 
 
