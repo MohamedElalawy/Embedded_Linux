@@ -286,5 +286,105 @@ Let’s walk through a simple example:
 
 ---
 
+# IPC Example
 
+<img width="1777" height="936" alt="image" src="https://github.com/user-attachments/assets/4051e7c9-3851-4f16-8b04-69a8415b09c5" />
 
+---
+# c++ and python IPC
+
+### C++ Server Code:
+```cpp
+#include <iostream>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <cstring>
+
+int main() {
+    int socketBox, newSocket, recvSize;
+    struct sockaddr_in server, client;
+    char message[2000] = {0};
+
+    // Create socket
+    socketBox = socket(AF_INET, SOCK_STREAM, 0);
+    if (socketBox == -1) {
+        std::cerr << "Could not create socket\n";
+        return 1;
+    }
+
+    // Prepare the sockaddr_in structure
+    server.sin_family = AF_INET;
+    server.sin_addr.s_addr = INADDR_ANY;
+    server.sin_port = htons(8888);
+
+    // Bind
+    if (bind(socketBox, reinterpret_cast<struct sockaddr*>(&server), sizeof(server)) < 0) {
+        std::cerr << "Bind failed\n";
+        return 1;
+    }
+
+    // Listen
+    listen(socketBox, 3);
+    std::cout << "Waiting for incoming connections...\n";
+
+    // Accept incoming connection
+    socklen_t clientLen = sizeof(client);
+    newSocket = accept(socketBox, reinterpret_cast<struct sockaddr*>(&client), &clientLen);
+    if (newSocket < 0) {
+        std::cerr << "Accept failed\n";
+        return 1;
+    }
+
+    // Receive and send messages
+    while ((recvSize = recv(newSocket, message, sizeof(message), 0)) > 0) {
+        std::cout << "Received: " << message << std::endl;
+        send(newSocket, message, strlen(message), 0);
+        memset(message, 0, sizeof(message));
+    }
+
+    if (recvSize == 0) {
+        std::cout << "Client disconnected\n";
+    } else if (recvSize == -1) {
+        std::cerr << "Receive failed\n";
+    }
+
+    close(newSocket);
+    close(socketBox);
+    return 0;
+}
+```
+
+### Python Client Code:
+```python
+import socket
+
+def main():
+    # Create a socket object
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    # Server address and port
+    server_address = ('localhost', 8888)
+
+    try:
+        # Connect to the server
+        client_socket.connect(server_address)
+
+        # Send data to server
+        message = "hello"
+        client_socket.sendall(message.encode())
+
+        # Receive response from server
+        response = client_socket.recv(1024).decode()
+        print(f"Received response from server: {response}")
+
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        # Close the socket
+        client_socket.close()
+
+if __name__ == "__main__":
+    main()
+```
