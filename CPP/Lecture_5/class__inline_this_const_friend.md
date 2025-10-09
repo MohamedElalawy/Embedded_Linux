@@ -177,3 +177,350 @@ the standard makes it **implicitly inline**, so that the “deleted” declarati
 > so you can safely define them in headers without duplication errors.
 
 ---
+
+## 🧩 What is a Constructor?
+
+A **constructor** is a **special function** inside a class that’s automatically called when you **create an object** of that class.
+
+Its main job is to **initialize** the object — that is, set up its data members and prepare it for use.
+
+---
+
+### 🧠 Key facts about constructors
+
+* The constructor’s **name is the same as the class name**.
+* It **has no return type** (not even `void`).
+* It can be **overloaded** (you can have multiple constructors with different parameters).
+* It’s called **automatically** when you create an object.
+
+Example:
+
+```cpp
+class Car {
+public:
+    Car() { // Constructor
+        std::cout << "Car object created!\n";
+    }
+};
+```
+
+When you write:
+
+```cpp
+Car myCar;
+```
+
+→ The constructor `Car()` is automatically called.
+
+---
+
+## ⚙️ Types of Constructors
+
+There are **5 main types** of constructors in C++.
+
+---
+
+### 1️⃣ **Default Constructor**
+
+* Takes **no parameters**.
+* Automatically created by the compiler if you don’t define any constructor yourself.
+
+Example:
+
+```cpp
+class Car {
+public:
+    Car() {
+        std::cout << "Default constructor called\n";
+    }
+};
+```
+
+If you don’t define it, the compiler implicitly provides:
+
+```cpp
+Car() = default;
+```
+
+---
+
+### 2️⃣ **Parameterized Constructor**
+
+* Takes **arguments**.
+* Used to initialize objects with specific values.
+
+Example:
+
+```cpp
+class Car {
+public:
+    std::string brand;
+    int year;
+
+    Car(std::string b, int y) {
+        brand = b;
+        year = y;
+    }
+};
+```
+
+Usage:
+
+```cpp
+Car c1("Audi", 2024);
+```
+
+---
+
+### 3️⃣ **Copy Constructor**
+
+* Used when **creating a new object from an existing one** of the same type.
+* The syntax is:
+
+  ```cpp
+  ClassName (const ClassName &obj)
+  ```
+
+Example:
+
+```cpp
+class Car {
+public:
+    std::string brand;
+
+    Car(std::string b) : brand(b) {}
+    Car(const Car &c) { // Copy constructor
+        brand = c.brand;
+    }
+};
+```
+
+Usage:
+
+```cpp
+Car c1("BMW");
+Car c2 = c1; // Calls copy constructor
+```
+
+---
+
+### 4️⃣ **Move Constructor** (C++11 and later)
+
+* Used to transfer (move) resources from one object to another **instead of copying**.
+* Signature:
+
+  ```cpp
+  ClassName(ClassName &&obj)
+  ```
+
+Example:
+
+```cpp
+class Car {
+public:
+    std::string brand;
+
+    Car(std::string b) : brand(std::move(b)) {}
+    Car(Car &&c) noexcept { // Move constructor
+        brand = std::move(c.brand);
+    }
+};
+```
+
+Usage:
+
+```cpp
+Car c1("Tesla");
+Car c2 = std::move(c1); // Move constructor called
+```
+
+---
+
+### 5️⃣ **Copy Elision / Compiler-Generated Constructor**
+
+* The compiler may **omit** copy or move operations for optimization (called *copy elision*).
+* You’ll often see this in return statements:
+
+  ```cpp
+  return Car("BMW"); // The temporary is constructed directly
+  ```
+
+---
+
+### Bonus: **Destructor** (not a constructor but related)
+
+When the object’s lifetime ends, the **destructor** is automatically called to clean up:
+
+```cpp
+~Car() {
+    std::cout << "Car destroyed\n";
+}
+```
+
+---
+
+## 🧾 Summary Table
+
+| Type                      | Syntax                 | Purpose                                   |
+| ------------------------- | ---------------------- | ----------------------------------------- |
+| Default Constructor       | `Car()`                | Initializes object with default values    |
+| Parameterized Constructor | `Car(int a, string b)` | Initializes object with specific values   |
+| Copy Constructor          | `Car(const Car &obj)`  | Creates copy of another object            |
+| Move Constructor          | `Car(Car &&obj)`       | Transfers resources instead of copying    |
+| Implicit / Defaulted      | `Car() = default;`     | Compiler-generated version if not defined |
+
+---
+
+## 🧩 What is `this`?
+
+In C++, **`this`** is a **special pointer** that exists inside **all non-static member functions** of a class.
+
+It **points to the object** that **called** the function.
+
+---
+
+### 🧠 Think of it like this:
+
+When you have an object calling a method:
+
+```cpp
+Car audi;
+audi.start();
+```
+
+Inside the `start()` function, the compiler secretly passes a hidden pointer — the **address of `audi`** — so that the function knows *which object’s data it’s working on*.
+
+That pointer is named `this`.
+
+---
+
+### 🔹 Example
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Car {
+public:
+    string brand;
+    int year;
+
+    Car(string b, int y) {
+        // "this" points to the object being constructed
+        this->brand = b;
+        this->year = y;
+    }
+
+    void show() {
+        cout << "Brand: " << this->brand << ", Year: " << this->year << endl;
+    }
+};
+
+int main() {
+    Car c1("BMW", 2024);
+    c1.show();
+}
+```
+
+#### Output:
+
+```
+Brand: BMW, Year: 2024
+```
+
+Here:
+
+* Inside the constructor, `this->brand` refers to the **brand member** of the current object (`c1`).
+* `this` is a pointer to `c1`.
+
+---
+
+### 🧩 Why use `this`?
+
+It’s especially useful when:
+
+1. **Parameter names are the same as member names:**
+
+   ```cpp
+   class Car {
+       string brand;
+   public:
+       Car(string brand) {
+           this->brand = brand; // disambiguates between member and parameter
+       }
+   };
+   ```
+
+   Without `this->`, the compiler would think both refer to the parameter.
+
+---
+
+2. **Returning the current object**
+
+   ```cpp
+   class Car {
+       int speed;
+   public:
+       Car(int s) : speed(s) {}
+       Car& setSpeed(int s) {
+           this->speed = s;
+           return *this; // return the object itself
+       }
+   };
+   ```
+
+   Then you can chain calls:
+
+   ```cpp
+   Car c(100);
+   c.setSpeed(120).setSpeed(150); // method chaining
+   ```
+
+---
+
+3. **Passing the current object to another function**
+
+   ```cpp
+   void printCar(const Car* c);
+
+   class Car {
+   public:
+       void show() {
+           printCar(this); // pass pointer to current object
+       }
+   };
+   ```
+
+---
+
+### ⚙️ Technical details
+
+| Aspect           | Description                                                    |
+| ---------------- | -------------------------------------------------------------- |
+| Type             | `this` is a **pointer** (e.g., `Car* this` inside class `Car`) |
+| Scope            | Available in **non-static member functions only**              |
+| Static functions | ❌ Cannot use `this`, since they are not tied to any object     |
+| Const functions  | The type becomes `const Car* this`                             |
+
+Example:
+
+```cpp
+void show() const {
+    // here, "this" is of type "const Car*"
+}
+```
+
+---
+
+### ✅ Summary
+
+| Concept          | Meaning                                                            |
+| ---------------- | ------------------------------------------------------------------ |
+| `this`           | Pointer to the current object                                      |
+| Type             | ClassName* (or const ClassName* for const methods)                 |
+| Common uses      | Resolve name conflicts, return current object, pass current object |
+| Not available in | Static member functions                                            |
+
+---
+
+
