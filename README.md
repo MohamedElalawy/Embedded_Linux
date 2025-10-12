@@ -51,6 +51,11 @@
 | Smart Pointers, Templates, Iterators, Streams                                 |
 | Threading, File Management                                                    |
 
+
+✨ **Check out my projects on this Module**  
+
+
+
 ---
 
 ## 🐧 Linux Course
