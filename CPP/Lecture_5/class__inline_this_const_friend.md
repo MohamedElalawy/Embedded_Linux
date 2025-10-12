@@ -784,4 +784,144 @@ This feature underlies many modern C++ idioms, such as:
 
 ---
 
+# delegating constructors
+This is a powerful feature that helps reduce code duplication between constructors in the **same class**.
+
+
+## 🧩 1. What Is a Delegating Constructor?
+
+A **delegating constructor** is a constructor that **calls another constructor** of the **same class** to perform some or all of the initialization work.
+
+Introduced in **C++11**, it allows you to write **cleaner, DRY (Don’t Repeat Yourself)** constructor code.
+
+---
+
+### ✅ Example: Without Delegation (Old Way)
+
+```cpp
+class Box {
+    int width;
+    int height;
+public:
+    Box() {
+        width = 0;
+        height = 0;
+    }
+
+    Box(int w, int h) {
+        width = w;
+        height = h;
+    }
+};
+```
+
+Here, both constructors initialize members — **duplicate code**.
+
+---
+
+### ✅ Example: With Delegation (Modern Way)
+
+```cpp
+class Box {
+    int width;
+    int height;
+public:
+    Box() : Box(0, 0) {            // delegating to another constructor
+        // nothing else needed
+    }
+
+    Box(int w, int h) : width(w), height(h) { }
+};
+```
+
+✔ `Box()` **calls** `Box(int, int)`
+✔ Only one constructor actually performs initialization
+✔ No duplication, simpler maintenance
+
+---
+
+## ⚙️ 2. How It Works
+
+* Delegating constructor uses the **member initializer list** syntax:
+
+  ```cpp
+  ClassName(arguments)
+  ```
+* You can **only delegate to one other constructor**.
+* You cannot mix delegation with base-class constructor calls in the same initializer list.
+
+---
+
+### ❌ Invalid Example (Mixing)
+
+```cpp
+class Derived : public Base {
+public:
+    Derived() : Base(1), Derived(2) { } // ❌ not allowed — can’t call both
+};
+```
+
+You must choose **either** a base constructor **or** a delegation target, not both.
+
+---
+
+## 🧱 3. Realistic Example
+
+```cpp
+#include <string>
+
+class Person {
+    std::string name;
+    int age;
+public:
+    Person(std::string n, int a) : name(n), age(a) {}
+    Person(std::string n) : Person(n, 0) {}     // delegate to main constructor
+    Person() : Person("Unknown", 0) {}          // delegate again
+};
+```
+
+All constructors delegate to the most detailed one.
+This is often called a **constructor chain**.
+
+---
+
+## 🧠 4. Why Use Delegating Constructors?
+
+| Benefit         | Description                                                   |
+| --------------- | ------------------------------------------------------------- |
+| **Code reuse**  | Avoid repeating common initialization logic.                  |
+| **Consistency** | All constructors behave uniformly.                            |
+| **Maintenance** | Only one place to update when adding new members or defaults. |
+| **Readability** | Makes the constructor flow explicit and organized.            |
+
+---
+
+## ⚡ 5. Delegation vs Inheritance Initialization
+
+* **Delegation:** calls another constructor in the *same* class.
+* **Inheritance:** calls a constructor from the *base* class.
+
+You can use both — but not in the same initializer list.
+
+Example:
+
+```cpp
+class Base {
+public:
+    Base(int id) {}
+};
+
+class Derived : public Base {
+    int value;
+public:
+    Derived() : Base(0), value(0) {}     // base constructor
+    Derived(int v) : Derived() { value = v; } // delegation
+};
+```
+
+This is valid: the delegating constructor (`Derived(int)`) calls another constructor (`Derived()`), which in turn calls the base constructor.
+
+---
+
+
 
