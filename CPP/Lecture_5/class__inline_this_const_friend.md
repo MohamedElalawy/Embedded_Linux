@@ -914,14 +914,295 @@ public:
 class Derived : public Base {
     int value;
 public:
-    Derived() : Base(0), value(0) {}     // base constructor
-    Derived(int v) : Derived() { value = v; } // delegation
+    Derived() : Base(0), value(0) {}     //base constructor
+    Derived(int v) : Derived() { value = v; } //delegation
 };
 ```
 
 This is valid: the delegating constructor (`Derived(int)`) calls another constructor (`Derived()`), which in turn calls the base constructor.
 
+
+---
+# Enforcing Parameterized Construction
+
+```cpp
+class MyData {
+public:
+    MyData() = delete;                     // disallow empty construction
+    MyData(int a, int b) : x(a), y(b) {}   // only this is valid
+private:
+    int x, y;
+};
+
+MyData m1;         // ❌ error
+MyData m2(10, 20); // ✅ ok
+```
+
+## 🧱 1. What `= delete` Means
+
+In your code:
+
+```cpp
+MyData() = delete;
+```
+
+This line **tells the compiler not to generate** a default constructor for `MyData`.
+If someone tries to create an object with:
+
+```cpp
+MyData data;   // ❌ error: call to deleted constructor
+```
+
+the compiler **explicitly forbids it** — hence the error in your IDE:
+
+> “Call to deleted constructor of 'MyData'”.
+
+This is often used to **prevent invalid or undesired object creation**, for example:
+
+* To enforce initialization with parameters.
+* To disable copy or move operations.
+* To prevent heap allocation or stack allocation, depending on design.
+
+
 ---
 
+## ⚙️ 2. Why Delete Instead of Just Private?
 
+Before C++11, people made constructors **private** to prevent access:
+
+```cpp
+private:
+    MyData();  // declared but not defined
+```
+
+But this led to **linker errors** instead of **compiler errors**.
+
+With `= delete`, you get a **clear compile-time error**.
+It’s safer, cleaner, and explicit.
+
+---
+
+## 🧩 3. Rule of 0, 3, and 5 (C++ Object Lifetime Rules)
+
+These rules describe when and how you should define or omit special member functions (like constructors, destructors, and assignment operators).
+
+---
+
+### 🧠 The Rule of 0 (C++11+)
+
+> **If your class doesn’t manage resources manually (like dynamic memory, files, etc.), don’t define any special member functions.**
+
+Let the compiler handle:
+
+* Default constructor
+* Copy constructor
+* Copy assignment operator
+* Move constructor
+* Move assignment operator
+* Destructor
+
+**Rationale:** The compiler-generated ones are safe and efficient for simple data members (like `int`, `std::string`, etc.).
+
+**Example:**
+
+```cpp
+struct Point {
+    int x, y;    // POD-like
+}; // compiler generates all special functions safely
+```
+
+---
+
+### ⚙️ The Rule of 3 (Pre-C++11)
+
+> **If you define one of the “big three”, you probably need all three:**
+
+1. Copy constructor
+2. Copy assignment operator
+3. Destructor
+
+Because defining one usually implies resource ownership — and the others must handle it too.
+
+**Example:**
+
+```cpp
+class MyClass {
+    int* data;
+public:
+    MyClass(int val) { data = new int(val); }
+    ~MyClass() { delete data; }                     // 1. destructor
+    MyClass(const MyClass& other) {                 // 2. copy constructor
+        data = new int(*other.data);
+    }
+    MyClass& operator=(const MyClass& other) {      // 3. copy assignment
+        if (this != &other) {
+            *data = *other.data;
+        }
+        return *this;
+    }
+};
+```
+
+---
+
+### ⚡ The Rule of 5 (C++11+)
+
+> **If you define any of the “big five”, you likely need to define all of them:**
+
+1. Destructor
+2. Copy constructor
+3. Copy assignment operator
+4. Move constructor
+5. Move assignment operator
+
+Because move semantics introduced in C++11 add new ways to manage resource ownership efficiently.
+
+**Example:**
+
+```cpp
+class Resource {
+    int* ptr;
+public:
+    Resource(int v) : ptr(new int(v)) {}
+    ~Resource() { delete ptr; }
+
+    // copy
+    Resource(const Resource& other) : ptr(new int(*other.ptr)) {}
+    Resource& operator=(const Resource& other) {
+        if (this != &other) *ptr = *other.ptr;
+        return *this;
+    }
+
+    // move
+    Resource(Resource&& other) noexcept : ptr(other.ptr) { other.ptr = nullptr; }
+    Resource& operator=(Resource&& other) noexcept {
+        if (this != &other) {
+            delete ptr;
+            ptr = other.ptr;
+            other.ptr = nullptr;
+        }
+        return *this;
+    }
+};
+```
+
+---
+
+## 📘 Summary Table
+
+| Rule           | Era    | When to Apply                          | Key Idea                                      |
+| -------------- | ------ | -------------------------------------- | --------------------------------------------- |
+| **Rule of 0**  | C++11+ | If you don’t manage resources manually | Let compiler generate everything              |
+| **Rule of 3**  | C++98  | If you manage copyable resources       | Define copy ctor, copy assignment, destructor |
+| **Rule of 5**  | C++11+ | If you manage moveable resources       | Also define move ctor and move assignment     |
+| **`= delete`** | C++11+ | To explicitly forbid a function        | Causes compile-time error if called           |
+
+---
+
+#  1. The “Sanitizing Rule” 
+
+In modern C++ discussions, when someone mentions the **“sanitizing rule”**, they’re usually referring to a **design guideline** or **pattern hygiene rule** for special member functions and constructors — i.e. **to keep your class “clean” or “sanitized”** in how it manages resources and follows the “Rule of 0 / 3 / 5.”
+
+It’s **not an official ISO C++ term**, but rather an **informal convention** meaning:
+
+> *“A class should be sanitized — i.e., designed cleanly — so that it either requires no special member functions at all, or explicitly manages all of them correctly.”*
+
+So the **sanitizing rule** in this sense is:
+
+> Ensure your class is “sanitized” in its ownership semantics — no half-defined, inconsistent, or unsafe constructors/destructors.
+
+---
+
+### ✅ A “Sanitized” Class Example
+
+```cpp
+class MyData {
+    int a, b;
+public:
+    MyData(int x, int y) : a(x), b(y) {}
+    // no destructor, no copy/move — compiler-generated ones are fine
+};
+```
+
+This class is **sanitized** under the **Rule of 0**:
+
+* No raw pointers or manual resource management
+* Compiler handles all copying and destruction safely
+
+---
+
+### ❌ An “Unsanitized” Class Example
+
+```cpp
+class MyData {
+    int* data;
+public:
+    MyData(int val) { data = new int(val); }   // allocates
+    // forgot destructor
+};
+```
+
+Here, you have a **resource leak** — the destructor is missing.
+The class is **unsanitized** — it violates Rule of 3 / Rule of 5.
+
+So the *sanitizing rule* would tell you to either:
+
+* Manage ownership fully (define destructor, copy, move properly), **or**
+* Use RAII (like `std::unique_ptr<int>`) to **sanitize automatically**.
+
+---
+
+## 🧠 2. The “Sanitizers” (Compiler Tools)
+
+There’s another, **formal and widely used** meaning of “sanitizing” in C++ — **runtime sanitizers** — tools that detect undefined or unsafe behavior.
+
+These are compiler options that *instrument* your code to catch bugs at runtime.
+
+### 🧰 Common Sanitizers
+
+| Sanitizer                              | Purpose                                                               |
+| -------------------------------------- | --------------------------------------------------------------------- |
+| **AddressSanitizer (ASan)**            | Detects memory errors — buffer overflows, use-after-free, etc.        |
+| **UndefinedBehaviorSanitizer (UBSan)** | Detects undefined C++ behaviors — invalid casts, divide by zero, etc. |
+| **ThreadSanitizer (TSan)**             | Detects race conditions in multithreaded programs.                    |
+| **MemorySanitizer (MSan)**             | Detects use of uninitialized memory.                                  |
+| **LeakSanitizer (LSan)**               | Detects memory leaks.                                                 |
+
+### Example usage:
+
+```bash
+g++ -fsanitize=address,undefined -g main.cpp -o main
+./main
+```
+
+If your program mismanages memory or violates C++ rules, the sanitizer prints detailed runtime diagnostics.
+
+---
+
+## 🧮 3. Relationship Between the Two Meanings
+
+| Aspect     | “Sanitizing Rule” (Design Hygiene)      | “Sanitizer” (Tool)                      |
+| ---------- | --------------------------------------- | --------------------------------------- |
+| Type       | Design principle                        | Compiler/runtime tool                   |
+| Purpose    | Make classes safe by design             | Detect unsafe behavior during execution |
+| Applies to | Code structure and object lifetime      | Runtime memory and logic                |
+| Examples   | Rule of 0 / 3 / 5, deleted constructors | ASan, UBSan, TSan                       |
+
+They complement each other:
+
+* The **sanitizing rule** prevents bad code patterns.
+* **Sanitizers** detect violations that slipped through.
+
+---
+
+## ✅ Summary
+
+| Term                           | Meaning                                                                                                        |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| **Sanitizing Rule (informal)** | Design principle to keep classes “clean” — no partial ownership or inconsistent special members.               |
+| **Goal**                       | Either rely entirely on compiler defaults (Rule of 0) or implement all relevant special members (Rule of 3/5). |
+| **Formal Sanitizers**          | Runtime tools (ASan, UBSan, etc.) that detect bugs like memory leaks or undefined behavior.                    |
+| **Key takeaway**               | “Sanitize” your code either by *correct design* or *runtime validation*.                                       |
+
+---
 
