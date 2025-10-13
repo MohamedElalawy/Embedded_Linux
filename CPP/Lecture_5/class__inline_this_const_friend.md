@@ -1206,3 +1206,317 @@ They complement each other:
 
 ---
 
+# `const` inside a **class** 
+
+### 🧩 1. **Const Data Members**
+
+These are variables inside the class that **cannot be modified after initialization**.
+
+```cpp
+class Example {
+    const int value;
+public:
+    Example(int v) : value(v) {} // Must be initialized in constructor initializer list
+};
+```
+
+* Must be **initialized** in the constructor’s initializer list.
+* Cannot be changed later in the object’s lifetime.
+
+---
+
+### ⚙️ 2. **Const Member Functions**
+
+These functions promise **not to modify the object**.
+
+```cpp
+class Example {
+    int x;
+public:
+    int getValue() const { return x; } // Cannot modify any data members
+    void setValue(int v) { x = v; }    // Normal (non-const) function
+};
+```
+
+* A `const` member function can only call other `const` member functions.
+* You can call them on `const` objects:
+
+  ```cpp
+  const Example e(10);
+  e.getValue(); // ✅ OK
+  // e.setValue(5); // ❌ Error
+  ```
+
+---
+
+### 🧱 3. **Const Objects**
+
+Objects declared `const` can’t be modified.
+
+```cpp
+const Example e(10);
+```
+
+* Only `const` member functions can be called on them.
+* Data members cannot be changed.
+
+---
+
+### 🧮 4. **Static Const Members**
+
+Used for **compile-time constants** shared by all instances.
+
+```cpp
+class Example {
+public:
+    static const int maxSize = 100;
+};
+```
+
+* Can be used like `Example::maxSize`.
+* If it’s an integral type, you can define it inside the class without needing a separate definition.
+
+---
+
+### 🧠 Summary Table
+
+| Context               | Example                       | Meaning                            |
+| --------------------- | ----------------------------- | ---------------------------------- |
+| Const data member     | `const int x;`                | Cannot change after construction   |
+| Const member function | `void foo() const;`           | Doesn’t modify the object          |
+| Const object          | `const MyClass obj;`          | Object cannot be changed           |
+| Static const member   | `static const int value = 5;` | Shared constant across all objects |
+
+---
+
+
+##  The `mutable` Keyword in Classes
+
+Normally, a **`const` member function** can’t modify any data members.
+But sometimes, you want to allow *specific* members to change — for example, a cache, a counter, or a flag that doesn’t affect the object’s logical state.
+
+That’s where `mutable` comes in.
+
+---
+
+### 💡 Example 1: Using `mutable` in a `const` Function
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Example {
+    int value;
+    mutable int accessCount; // can be modified even in const functions
+
+public:
+    Example(int v) : value(v), accessCount(0) {}
+
+    int getValue() const {
+        accessCount++;          // ✅ allowed because accessCount is mutable
+        return value;
+    }
+
+    int getAccessCount() const { return accessCount; }
+};
+
+int main() {
+    const Example e(42);
+    cout << e.getValue() << endl;
+    cout << e.getValue() << endl;
+    cout << e.getAccessCount() << endl; // prints 2
+}
+```
+
+🧠 Explanation:
+
+* The object `e` is `const`.
+* The function `getValue()` is `const`, so normally it can’t modify any members.
+* But because `accessCount` is declared `mutable`, it can still be updated.
+
+---
+
+### ⚙️ Example 2: Practical Use Case — Caching a Computed Value
+
+```cpp
+class Data {
+    mutable bool cacheValid;
+    mutable int cachedResult;
+    int rawValue;
+
+public:
+    Data(int v) : cacheValid(false), cachedResult(0), rawValue(v) {}
+
+    int expensiveCalculation() const {
+        if (!cacheValid) {
+            cachedResult = rawValue * 2; // simulate expensive work
+            cacheValid = true;
+        }
+        return cachedResult;
+    }
+};
+```
+
+💬 This lets you **cache a computed value** inside a `const` function, which conceptually doesn’t change the object’s *logical* state.
+
+---
+
+### 🚦 Summary
+
+| Keyword   | Where Used             | Purpose                                       |
+| --------- | ---------------------- | --------------------------------------------- |
+| `const`   | After member function  | Prevents modifying members                    |
+| `mutable` | Before member variable | Allows modification even in `const` functions |
+
+---
+
+#  What `friend` Does in C++
+
+
+
+## 🧠 1. Friend Function
+
+A **non-member function** that is allowed to access private and protected data of a class.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Box {
+    double width;   // private by default
+public:
+    Box(double w) : width(w) {}
+
+    // Declare a friend function
+    friend void printWidth(Box b);
+};
+
+// Define the friend function
+void printWidth(Box b) {
+    // Can access private member 'width'
+    cout << "Width: " << b.width << endl;
+}
+
+int main() {
+    Box b(10.5);
+    printWidth(b);  // ✅ Works fine
+}
+```
+
+💡 Without `friend`, `printWidth()` wouldn’t be able to access `b.width`.
+
+---
+
+## 🧱 2. Friend Class
+
+You can make **an entire class** a friend of another class — then *all* its methods can access the other’s private and protected members.
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Engine; // forward declaration
+
+class Car {
+    int speed;
+public:
+    Car() : speed(100) {}
+
+    // make Engine a friend class
+    friend class Engine;
+};
+
+class Engine {
+public:
+    void boost(Car &c) {
+        c.speed += 50; // ✅ can access private member
+        cout << "Boosted speed: " << c.speed << endl;
+    }
+};
+
+int main() {
+    Car c;
+    Engine e;
+    e.boost(c);
+}
+```
+
+---
+
+## ⚙️ 3. Friend Member Function
+
+You can also make **just one member** of another class a friend.
+
+```cpp
+class B; // forward declaration
+
+class A {
+    int secret = 42;
+    friend void B::revealSecret(A); // declare specific function as friend
+};
+
+class B {
+public:
+    void revealSecret(A a) {
+        std::cout << "Secret is " << a.secret << std::endl;
+    }
+};
+```
+
+*(In this case you need forward declarations because of ordering.)*
+
+---
+
+## 🚦 Rules to Remember
+
+| Rule               | Description                                                                       |
+| ------------------ | --------------------------------------------------------------------------------- |
+| 🔓 Access          | Friends can access private and protected members                                  |
+| 📍 Declared Inside | Friendship is declared **inside** the class granting access                       |
+| 🔁 Not Inherited   | Friendship is **not inherited** by subclasses                                     |
+| 🧭 One-Way         | Friendship is **not mutual** (A can friend B, but B won’t automatically friend A) |
+| ✋ Not Transitive   | If A friends B and B friends C, A ≠ friend of C                                   |
+
+---
+
+## 🧩 Why Use `friend`?
+
+✅ Use it when:
+
+* You need **tight coupling** between classes (e.g., `operator<<` for `std::ostream`)
+* You’re writing **helper functions** that need private access
+* You want **encapsulation** but still allow selective inspection
+
+❌ Avoid it when:
+
+* It breaks modularity or makes classes too dependent on each other.
+
+---
+
+## 🧮 Example: operator<< as a Friend
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Point {
+    int x, y;
+public:
+    Point(int a, int b) : x(a), y(b) {}
+    friend ostream& operator<<(ostream& os, const Point& p);
+};
+
+ostream& operator<<(ostream& os, const Point& p) {
+    os << "(" << p.x << ", " << p.y << ")";
+    return os;
+}
+
+int main() {
+    Point p(3, 4);
+    cout << p; // prints (3, 4)
+}
+```
+
+---
+
+
